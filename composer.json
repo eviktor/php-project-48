@@ -17,5 +17,10 @@
         "files": [
             "src/Differ.php"
         ]
+    },
+    "autoload-dev": {
+        "psr-4": {
+          "Php\\Package\\Tests\\": "tests"
+        }
     }
 }
