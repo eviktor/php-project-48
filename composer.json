@@ -6,7 +6,9 @@
         "docopt/docopt": "^1.0"
     },
     "require-dev": {
-        "squizlabs/php_codesniffer": "^3.9"
+        "squizlabs/php_codesniffer": "^3.9",
+        "phpunit/phpunit": "^11.1",
+        "phpstan/phpstan": "^1.10"
     },
     "bin": [
         "bin/gendiff"
