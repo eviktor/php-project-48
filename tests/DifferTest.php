@@ -8,21 +8,24 @@ use function Differ\Differ\genDiff;
 
 function removeSpaces(string $str): string
 {
-    return (string)preg_replace('/[ |\t]+/', ' ', trim($str));
+    $lines = explode("\n", trim($str));
+    $trimmedLines = array_map(fn ($line) => trim($line, " \t"), $lines);
+    return implode("\n", $trimmedLines);
 }
 
 class DifferTest extends TestCase
 {
     public function testEmpty(): void
     {
-        $this->assertEquals('', genDiff('', ''));
+        $result = removeSpaces(genDiff('', ''));
+        $this->assertEquals("{\n}", $result);
     }
 
     public function testOneSideEmpty(): void
     {
         $json = '{ "host": "hexlet.io", "timeout": 50, "proxy": "123.234.53.22", "follow": false }';
 
-        $result1 = removeSpaces(genDiff($json, ''));
+        $result1 = removeSpaces(genDiff('', $json));
         $expectedResult1 = removeSpaces(
             '{
                 + follow: false
@@ -33,7 +36,7 @@ class DifferTest extends TestCase
         );
         $this->assertEquals($expectedResult1, $result1);
 
-        $result2 = removeSpaces(genDiff('', $json));
+        $result2 = removeSpaces(genDiff($json, ''));
         $expectedResult2 = removeSpaces(
             '{
                 - follow: false
@@ -53,7 +56,7 @@ class DifferTest extends TestCase
         $expectedResult = removeSpaces(
             '{
                 - follow: false
-                host: hexlet.io
+                  host: hexlet.io
                 - proxy: 123.234.53.22
                 - timeout: 50
                 + timeout: 20

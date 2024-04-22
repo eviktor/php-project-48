@@ -3,7 +3,8 @@
     "description": "hexlet study project",
     "license": "MIT",
     "require": {
-        "docopt/docopt": "^1.0"
+        "docopt/docopt": "^1.0",
+        "hexlet/trees": "^1.1"
     },
     "require-dev": {
         "squizlabs/php_codesniffer": "^3.9",
@@ -15,7 +16,9 @@
     ],
     "autoload": {
         "files": [
-            "src/Differ.php"
+            "src/Differ.php",
+            "src/ImportJson.php",
+            "src/OutputFormatter.php"
         ]
     },
     "autoload-dev": {
