@@ -29,7 +29,7 @@ $args = Docopt::handle($doc);
 if ($args['--version']) {
   print_r("Version: 0.0.0\n");;
 } else {
-  print_r(genDiff(file_get_contents($args['<firstFile>']), file_get_contents($args['<secondFile>'])));
+  print_r(genDiff(file_get_contents($args['<firstFile>']), file_get_contents($args['<secondFile>'])) . "\n");
 }
 
 return 0;

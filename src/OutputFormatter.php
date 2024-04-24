@@ -46,7 +46,9 @@ function formatStylish(array $tree, int $level = 0): array
         }
         $lines[] = $line;
     } else {
-        $lines[] = "$spacing" . (empty($name) ? '' : "$name:");
+        if (!empty($name)) {
+            $lines[] = "$spacing$name:";
+        }
         $lines[] = "$spacing{";
         $children = getChildren($tree);
         foreach ($children as $child) {

@@ -56,11 +56,9 @@ function compare(array $firstTree, array $secondTree): array
     }
 
     $leftItems = array_merge(...array_map(fn ($node) => [ getName($node) => $node ], getChildren($firstTree)));
-    ksort($leftItems);
     $leftKeys = array_keys($leftItems);
 
     $rightItems = array_merge(...array_map(fn ($node) => [ getName($node) => $node ], getChildren($secondTree)));
-    ksort($rightItems);
     $rightKeys = array_keys($rightItems);
 
     $removedKeys = array_diff($leftKeys, $rightKeys);
@@ -84,6 +82,7 @@ function compare(array $firstTree, array $secondTree): array
         },
         []
     );
+    usort($newChildren, fn ($a, $b) => getName($a) <=> getName($b));
 
     $name = getName($firstTree);
     $meta = getMeta($secondTree);
@@ -94,5 +93,5 @@ function genDiff(string $firstData, string $secondData, string $format = FORMAT_
 {
     $diff = compare(importJson($firstData), importJson($secondData));
     $lines = formatStylish($diff);
-    return implode("\n", $lines) . "\n";
+    return implode("\n", $lines);
 }
