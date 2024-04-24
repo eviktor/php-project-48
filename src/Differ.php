@@ -35,13 +35,34 @@ function setNodeStatus(array $node, string $status): array
 /**
  * @param array<mixed> $firstNode
  * @param array<mixed> $secondNode
- */
+*/
 function isEqualNodeData(array $firstNode, array $secondNode): bool
 {
     if (isFile($firstNode) && isFile($secondNode)) {
         return getMeta($firstNode)['data'] === getMeta($secondNode)['data'];
     }
     return false;
+}
+
+/**
+ * @param array<mixed> $leftItem
+ * @param array<mixed> $rightItem
+ * @return array<mixed>
+ */
+function compareNodeItems(array $leftItem, array $rightItem, bool $isRemoved, bool $isAdded): array
+{
+    $res = [];
+    if ($isRemoved) {
+        $res[] = setNodeStatus($leftItem, 'removed');
+    } elseif ($isAdded) {
+        $res[] = setNodeStatus($rightItem, 'added');
+    } elseif (isEqualNodeData($leftItem, $rightItem)) {
+        $res[] = setNodeStatus($leftItem, 'not changed');
+    } else {
+        $res[] = setNodeStatus($leftItem, 'removed');
+        $res[] = setNodeStatus($rightItem, 'added');
+    }
+    return $res;
 }
 
 /**
@@ -65,17 +86,12 @@ function compare(array $firstTree, array $secondTree): array
     $newChildren = array_reduce(
         $allKeys,
         function ($acc, $key) use ($removedKeys, $addedKeys, $leftItems, $rightItems) {
-            if (in_array($key, $removedKeys)) {
-                $acc[] = setNodeStatus($leftItems[$key], 'removed');
-            } elseif (in_array($key, $addedKeys)) {
-                $acc[] = setNodeStatus($rightItems[$key], 'added');
-            } elseif (isEqualNodeData($leftItems[$key], $rightItems[$key])) {
-                $acc[] = setNodeStatus($leftItems[$key], 'not changed');
-            } else {
-                $acc[] = setNodeStatus($leftItems[$key], 'removed');
-                $acc[] = setNodeStatus($rightItems[$key], 'added');
-            }
-            return $acc;
+            return array_merge($acc, compareNodeItems(
+                $leftItems[$key] ?? [],
+                $rightItems[$key] ?? [],
+                in_array($key, $removedKeys),
+                in_array($key, $addedKeys)
+            ));
         },
         []
     );
