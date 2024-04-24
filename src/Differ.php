@@ -56,14 +56,11 @@ function compare(array $firstTree, array $secondTree): array
     }
 
     $leftItems = array_merge(...array_map(fn ($node) => [ getName($node) => $node ], getChildren($firstTree)));
-    $leftKeys = array_keys($leftItems);
-
     $rightItems = array_merge(...array_map(fn ($node) => [ getName($node) => $node ], getChildren($secondTree)));
-    $rightKeys = array_keys($rightItems);
 
-    $removedKeys = array_diff($leftKeys, $rightKeys);
-    $addedKeys = array_diff($rightKeys, $leftKeys);
-    $allKeys = array_unique(array_merge($leftKeys, $rightKeys));
+    $removedKeys = array_diff(array_keys($leftItems), array_keys($rightItems));
+    $addedKeys = array_diff(array_keys($rightItems), array_keys($leftItems));
+    $allKeys = array_unique(array_merge(array_keys($leftItems), array_keys($rightItems)));
 
     $newChildren = array_reduce(
         $allKeys,
@@ -84,9 +81,7 @@ function compare(array $firstTree, array $secondTree): array
     );
     usort($newChildren, fn ($a, $b) => getName($a) <=> getName($b));
 
-    $name = getName($firstTree);
-    $meta = getMeta($secondTree);
-    return mkdir($name, $newChildren, $meta);
+    return mkdir(getName($firstTree), $newChildren, getMeta($firstTree));
 }
 
 function genDiff(string $firstData, string $secondData, string $format = FORMAT_STYLISH): string
