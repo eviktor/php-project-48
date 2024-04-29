@@ -1,6 +1,6 @@
 <?php
 
-namespace Differ\ImportJson;
+namespace Differ\Parsers\Json;
 
 use function Php\Immutable\Fs\Trees\trees\mkdir;
 use function Php\Immutable\Fs\Trees\trees\mkfile;
@@ -38,16 +38,18 @@ function buildJsonTree(string $name, array $jsonData): array
 /**
  * @return array<mixed>
  */
-function importJson(string $jsonText, string $rootName = ''): array
+function parse(string $content, string $rootName = ''): array
 {
-    $data = json_decode($jsonText, true);
+    $data = json_decode($content, true);
 
-    if (is_array($data)) {
-        return buildJsonTree($rootName, (array)$data);
-    // } elseif (is_bool($data)) {
-    //     return mkfile(toString($data));
-    // } else {
-    //     return mkdir($data);
+    if (json_last_error() === JSON_ERROR_NONE) {
+        if (is_array($data)) {
+            return buildJsonTree($rootName, (array)$data);
+        // } elseif (is_bool($data)) {
+        //     return mkfile(toString($data));
+        // } else {
+        //     return mkdir($data);
+        }
     }
 
     return mkdir($rootName);

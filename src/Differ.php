@@ -9,7 +9,7 @@ use function Php\Immutable\Fs\Trees\trees\getMeta;
 use function Php\Immutable\Fs\Trees\trees\getName;
 use function Php\Immutable\Fs\Trees\trees\isDirectory;
 use function Php\Immutable\Fs\Trees\trees\isFile;
-use function Differ\ImportJson\importJson;
+use function Differ\Parsers\Json\parse;
 use function Differ\OutputFormatter\formatStylish;
 
 const FORMAT_STYLISH = 'stylish';
@@ -102,7 +102,7 @@ function compare(array $firstTree, array $secondTree): array
 
 function genDiff(string $firstData, string $secondData, string $format = FORMAT_STYLISH): string
 {
-    $diff = compare(importJson($firstData), importJson($secondData));
+    $diff = compare(parse($firstData), parse($secondData));
     $lines = formatStylish($diff);
     return implode("\n", $lines);
 }

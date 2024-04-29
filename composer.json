@@ -18,7 +18,7 @@
     "autoload": {
         "files": [
             "src/Differ.php",
-            "src/ImportJson.php",
+            "src/Parsers/Json.php",
             "src/OutputFormatter.php"
         ]
     },
