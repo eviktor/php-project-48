@@ -18,8 +18,9 @@
     "autoload": {
         "files": [
             "src/Differ.php",
+            "src/OutputFormatter.php",
             "src/Parsers/Json.php",
-            "src/OutputFormatter.php"
+            "src/TreeComparer.php"
         ]
     },
     "autoload-dev": {
