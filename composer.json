@@ -21,6 +21,7 @@
             "src/Differ.php",
             "src/OutputFormatter.php",
             "src/Parsers/Json.php",
+            "src/Parsers/Yaml.php",
             "src/TreeComparer.php"
         ]
     },

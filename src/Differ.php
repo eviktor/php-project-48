@@ -13,11 +13,11 @@ function getFileType(string $filePath): string
     $format = 'unknown';
     switch ($ext) {
         case 'json':
-            $format = 'json';
+            $format = 'Json';
             break;
         case 'yml':
         case 'yaml':
-                $format = 'yaml';
+                $format = 'Yaml';
             break;
     }
     return $format;
@@ -25,15 +25,7 @@ function getFileType(string $filePath): string
 
 function getParseFunction(string $format): mixed
 {
-    switch ($format) {
-        case 'json':
-            return 'Differ\Parsers\Json\parse';
-        case 'yaml':
-        case 'yml':
-            // return 'Differ\Parsers\Yaml\parse';
-        default:
-            throw new \Exception('Unknown format');
-    }
+    return "Differ\\Parsers\\$format\\parse";
 }
 
 function genDiff(string $firstPath, string $secondPath, string $format = FORMAT_STYLISH): string
