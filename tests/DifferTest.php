@@ -29,28 +29,37 @@ class DifferTest extends TestCase
 
     public function testOneSideEmpty(): void
     {
-        $json = $this->getFixtureContents('file1.json');
+        $subTests = [
+            [ '', 'file1.json', 'result_empty_file1.txt' ],
+            [ 'file1.json', '', 'result_file1_empty.txt' ],
+            [ '', 'file1.yml', 'result_empty_file1.txt' ],
+            [ 'file1.yml', '', 'result_file1_empty.txt' ],
+        ];
 
-        $result1 = genDiff('', $json);
-        $expectedResult1 = $this->getFixtureContents('result_empty_file1.txt');
-        $this->assertEquals($expectedResult1, $result1);
-
-        $result2 = genDiff($json, '');
-        $expectedResult2 = $this->getFixtureContents('result_file1_empty.txt');
-        $this->assertEquals($expectedResult2, $result2);
+        foreach ($subTests as $subTest) {
+            $data1 = empty($subTest[0]) ? '' : $this->getFixtureContents($subTest[0]);
+            $data2 = empty($subTest[1]) ? '' : $this->getFixtureContents($subTest[1]);
+            $result = genDiff($data1, $data2);
+            $expectedResult = $this->getFixtureContents($subTest[2]);
+            $this->assertEquals($expectedResult, $result);
+        }
     }
 
-    public function testGeneral(): void
+    public function testJsonGeneral(): void
     {
-        $json1 = $this->getFixtureContents('file1.json');
-        $json2 = $this->getFixtureContents('file2.json');
+        $subTests = [
+            [ 'file1.json', 'file2.json', 'result_file1_file2.txt' ],
+            [ 'file2.json', 'file1.json', 'result_file2_file1.txt' ],
+            [ 'file1.yml', 'file2.yml', 'result_file1_file2.txt' ],
+            [ 'file2.yml', 'file1.yml', 'result_file2_file1.txt' ],
+        ];
 
-        $result1 = genDiff($json1, $json2);
-        $expectedResult1 = $this->getFixtureContents('result_file1_file2.txt');
-        $this->assertEquals($expectedResult1, $result1);
-
-        $result2 = genDiff($json2, $json1);
-        $expectedResult2 = $this->getFixtureContents('result_file2_file1.txt');
-        $this->assertEquals($expectedResult2, $result2);
+        foreach ($subTests as $subTest) {
+            $data1 = empty($subTest[0]) ? '' : $this->getFixtureContents($subTest[0]);
+            $data2 = empty($subTest[1]) ? '' : $this->getFixtureContents($subTest[1]);
+            $result = genDiff($data1, $data2);
+            $expectedResult = $this->getFixtureContents($subTest[2]);
+            $this->assertEquals($expectedResult, $result);
+        }
     }
 }
