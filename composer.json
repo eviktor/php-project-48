@@ -5,7 +5,8 @@
     "require": {
         "php": ">=8.3",
         "docopt/docopt": "^1.0",
-        "hexlet/trees": "^1.1"
+        "hexlet/trees": "^1.1",
+        "symfony/yaml": "^7.0"
     },
     "require-dev": {
         "squizlabs/php_codesniffer": "^3.9",
