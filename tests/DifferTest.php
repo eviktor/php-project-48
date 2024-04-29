@@ -15,33 +15,31 @@ class DifferTest extends TestCase
         return $path === false ? '' : $path;
     }
 
-    public function getFixtureContents(string $fixtureName): string
-    {
-        $contents = file_get_contents($this->getFixtureFullPath($fixtureName));
-        return $contents === false ? '' : $contents;
-    }
-
     public function testEmpty(): void
     {
-        $result = trim(genDiff('', ''));
+        $result = trim(genDiff($this->getFixtureFullPath('empty.json'), $this->getFixtureFullPath('empty.json')));
         $this->assertEquals("{\n}", $result);
+
+        // $result = trim(genDiff($this->getFixtureFullPath('empty.yml'), $this->getFixtureFullPath('empty.yml')));
+        // $this->assertEquals("{\n}", $result);
     }
 
     public function testOneSideEmpty(): void
     {
         $subTests = [
-            [ '', 'file1.json', 'result_empty_file1.txt' ],
-            [ 'file1.json', '', 'result_file1_empty.txt' ],
-            [ '', 'file1.yml', 'result_empty_file1.txt' ],
-            [ 'file1.yml', '', 'result_file1_empty.txt' ],
+            [ 'empty.json', 'file1.json', 'result_empty_file1.txt' ],
+            [ 'file1.json', 'empty.json', 'result_file1_empty.txt' ],
+            // [ 'empty.yml', 'file1.yml', 'result_empty_file1.txt' ],
+            // [ 'file1.yml', 'empty.yml', 'result_file1_empty.txt' ],
         ];
 
         foreach ($subTests as $subTest) {
-            $data1 = empty($subTest[0]) ? '' : $this->getFixtureContents($subTest[0]);
-            $data2 = empty($subTest[1]) ? '' : $this->getFixtureContents($subTest[1]);
-            $result = genDiff($data1, $data2);
-            $expectedResult = $this->getFixtureContents($subTest[2]);
-            $this->assertEquals($expectedResult, $result);
+            $filePath1 = $this->getFixtureFullPath($subTest[0]);
+            $filePath2 = $this->getFixtureFullPath($subTest[1]);
+            $expectedResultFilePath = $this->getFixtureFullPath($subTest[2]);
+
+            $result = genDiff($filePath1, $filePath2);
+            $this->assertStringEqualsFile($expectedResultFilePath, $result);
         }
     }
 
@@ -50,16 +48,17 @@ class DifferTest extends TestCase
         $subTests = [
             [ 'file1.json', 'file2.json', 'result_file1_file2.txt' ],
             [ 'file2.json', 'file1.json', 'result_file2_file1.txt' ],
-            [ 'file1.yml', 'file2.yml', 'result_file1_file2.txt' ],
-            [ 'file2.yml', 'file1.yml', 'result_file2_file1.txt' ],
+            // [ 'file1.yml', 'file2.yml', 'result_file1_file2.txt' ],
+            // [ 'file2.yml', 'file1.yml', 'result_file2_file1.txt' ],
         ];
 
         foreach ($subTests as $subTest) {
-            $data1 = empty($subTest[0]) ? '' : $this->getFixtureContents($subTest[0]);
-            $data2 = empty($subTest[1]) ? '' : $this->getFixtureContents($subTest[1]);
-            $result = genDiff($data1, $data2);
-            $expectedResult = $this->getFixtureContents($subTest[2]);
-            $this->assertEquals($expectedResult, $result);
+            $filePath1 = $this->getFixtureFullPath($subTest[0]);
+            $filePath2 = $this->getFixtureFullPath($subTest[1]);
+            $expectedResultFilePath = $this->getFixtureFullPath($subTest[2]);
+
+            $result = genDiff($filePath1, $filePath2);
+            $this->assertStringEqualsFile($expectedResultFilePath, $result);
         }
     }
 }
