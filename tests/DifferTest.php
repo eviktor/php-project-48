@@ -17,11 +17,11 @@ class DifferTest extends TestCase
 
     public function testEmpty(): void
     {
-        $result = trim(genDiff($this->getFixtureFullPath('empty.json'), $this->getFixtureFullPath('empty.json')));
-        $this->assertEquals("{\n}", $result);
+        $result1 = trim(genDiff($this->getFixtureFullPath('empty.json'), $this->getFixtureFullPath('empty.json')));
+        $this->assertEquals("{\n}", $result1);
 
-        // $result = trim(genDiff($this->getFixtureFullPath('empty.yml'), $this->getFixtureFullPath('empty.yml')));
-        // $this->assertEquals("{\n}", $result);
+        // $resul2t = trim(genDiff($this->getFixtureFullPath('empty.yml'), $this->getFixtureFullPath('empty.yml')));
+        // $this->assertEquals("{\n}", $result2);
     }
 
     public function testOneSideEmpty(): void
