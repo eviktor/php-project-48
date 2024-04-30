@@ -3,6 +3,7 @@
 namespace Php\Package\Tests;
 
 use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 use function Differ\Differ\genDiff;
 
@@ -17,48 +18,59 @@ class DifferTest extends TestCase
 
     public function testEmpty(): void
     {
+        $emptyResult = "{\n}";
         $result1 = trim(genDiff($this->getFixtureFullPath('empty.json'), $this->getFixtureFullPath('empty.json')));
-        $this->assertEquals("{\n}", $result1);
+        $this->assertEquals($emptyResult, $result1);
 
         $result2 = trim(genDiff($this->getFixtureFullPath('empty.yml'), $this->getFixtureFullPath('empty.yml')));
-        $this->assertEquals("{\n}", $result2);
+        $this->assertEquals($emptyResult, $result2);
     }
 
-    public function testOneSideEmpty(): void
+    /**
+     * @return array<mixed>
+     */
+    public static function oneSideProvider(): array
     {
-        $subTests = [
-            [ 'empty.json', 'file1.json', 'result_empty_file1.txt' ],
-            [ 'file1.json', 'empty.json', 'result_file1_empty.txt' ],
-            // [ 'empty.yml', 'file1.yml', 'result_empty_file1.txt' ],
-            // [ 'file1.yml', 'empty.yml', 'result_file1_empty.txt' ],
+        return [
+            'json left empty'   => [ 'empty.json', 'file1.json', 'result_empty_file1.txt' ],
+            'json right empty'  => [ 'file1.json', 'empty.json', 'result_file1_empty.txt' ],
+            // 'yaml left empty'   => [ 'empty.yml', 'file1.yml', 'result_empty_file1.txt' ],
+            // 'yaml right empty'  => [ 'file1.yml', 'empty.yml', 'result_file1_empty.txt' ],
         ];
-
-        foreach ($subTests as $subTest) {
-            $filePath1 = $this->getFixtureFullPath($subTest[0]);
-            $filePath2 = $this->getFixtureFullPath($subTest[1]);
-            $expectedResultFilePath = $this->getFixtureFullPath($subTest[2]);
-
-            $result = genDiff($filePath1, $filePath2);
-            $this->assertStringEqualsFile($expectedResultFilePath, $result);
-        }
     }
 
-    public function testJsonGeneral(): void
+    #[DataProvider('oneSideProvider')]
+    public function testOneSideEmpty(string $fileName1, string $fileName2, string $expectedResultFileName): void
     {
-        $subTests = [
-            [ 'file1.json', 'file2.json', 'result_file1_file2.txt' ],
-            [ 'file2.json', 'file1.json', 'result_file2_file1.txt' ],
-            // [ 'file1.yml', 'file2.yml', 'result_file1_file2.txt' ],
-            // [ 'file2.yml', 'file1.yml', 'result_file2_file1.txt' ],
+        $filePath1 = $this->getFixtureFullPath($fileName1);
+        $filePath2 = $this->getFixtureFullPath($fileName2);
+        $expectedResultFilePath = $this->getFixtureFullPath($expectedResultFileName);
+
+        $result = genDiff($filePath1, $filePath2);
+        $this->assertStringEqualsFile($expectedResultFilePath, $result);
+    }
+
+    /**
+     * @return array<mixed>
+     */
+    public static function generalProvider(): array
+    {
+        return [
+            'json 1,2' => [ 'file1.json', 'file2.json', 'result_file1_file2.txt' ],
+            'json 2,1' => [ 'file2.json', 'file1.json', 'result_file2_file1.txt' ],
+            // 'yaml 1,2' => [ 'file1.yml', 'file2.yml', 'result_file1_file2.txt' ],
+            // 'yaml 2,1' => [ 'file2.yml', 'file1.yml', 'result_file2_file1.txt' ],
         ];
+    }
 
-        foreach ($subTests as $subTest) {
-            $filePath1 = $this->getFixtureFullPath($subTest[0]);
-            $filePath2 = $this->getFixtureFullPath($subTest[1]);
-            $expectedResultFilePath = $this->getFixtureFullPath($subTest[2]);
+    #[DataProvider('generalProvider')]
+    public function testGeneral(string $fileName1, string $fileName2, string $expectedResultFileName): void
+    {
+        $filePath1 = $this->getFixtureFullPath($fileName1);
+        $filePath2 = $this->getFixtureFullPath($fileName2);
+        $expectedResultFilePath = $this->getFixtureFullPath($expectedResultFileName);
 
-            $result = genDiff($filePath1, $filePath2);
-            $this->assertStringEqualsFile($expectedResultFilePath, $result);
-        }
+        $result = genDiff($filePath1, $filePath2);
+        $this->assertStringEqualsFile($expectedResultFilePath, $result);
     }
 }
