@@ -4,4 +4,26 @@
 [![Issue Count](https://codeclimate.com/github/eviktor/php-project-48/badges/issue_count.svg)](https://codeclimate.com/github/eviktor/php-project-48/issues)
 [![Test Coverage](https://codeclimate.com/github/eviktor/php-project-48/badges/coverage.svg)](https://codeclimate.com/github/eviktor/php-project-48/coverage)
 
-### Учебный проект Hexlet "Вычислитель отличий"
+# GenDiff
+
+## Description
+
+This is a training project 2 for Hexlet PHP developer course.
+The utility compares 2 plain json/xaml files.
+
+## Requirements
+
+* php 8.3.0+
+* composer
+
+## Install
+
+```sh
+git clone https://github.com/eviktor/php-project-48.git
+cd php-project-48
+make install
+```
+
+## Demo
+
+[![asciicast](https://asciinema.org/a/XXMlEY16K3vQ1bvR8f1CpBGH2.svg)](https://asciinema.org/a/XXMlEY16K3vQ1bvR8f1CpBGH2)
