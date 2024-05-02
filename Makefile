@@ -1,4 +1,7 @@
 install:
+	composer install --no-dev
+
+install-dev:
 	composer install
 
 lint:
