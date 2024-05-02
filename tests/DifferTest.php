@@ -34,8 +34,8 @@ class DifferTest extends TestCase
         return [
             'json left empty'   => [ 'empty.json', 'file1.json', 'result_empty_file1.txt' ],
             'json right empty'  => [ 'file1.json', 'empty.json', 'result_file1_empty.txt' ],
-            // 'yaml left empty'   => [ 'empty.yml', 'file1.yml', 'result_empty_file1.txt' ],
-            // 'yaml right empty'  => [ 'file1.yml', 'empty.yml', 'result_file1_empty.txt' ],
+            'yaml left empty'   => [ 'empty.yml', 'file1.yml', 'result_empty_file1.txt' ],
+            'yaml right empty'  => [ 'file1.yml', 'empty.yml', 'result_file1_empty.txt' ],
         ];
     }
 
@@ -58,8 +58,8 @@ class DifferTest extends TestCase
         return [
             'json 1,2' => [ 'file1.json', 'file2.json', 'result_file1_file2.txt' ],
             'json 2,1' => [ 'file2.json', 'file1.json', 'result_file2_file1.txt' ],
-            // 'yaml 1,2' => [ 'file1.yml', 'file2.yml', 'result_file1_file2.txt' ],
-            // 'yaml 2,1' => [ 'file2.yml', 'file1.yml', 'result_file2_file1.txt' ],
+            'yaml 1,2' => [ 'file1.yml', 'file2.yml', 'result_file1_file2.txt' ],
+            'yaml 2,1' => [ 'file2.yml', 'file1.yml', 'result_file2_file1.txt' ],
         ];
     }
 
