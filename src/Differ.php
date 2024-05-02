@@ -17,7 +17,7 @@ function getFileType(string $filePath): string
             break;
         case 'yml':
         case 'yaml':
-                $format = 'Yaml';
+            $format = 'Yaml';
             break;
     }
     return $format;
@@ -28,18 +28,40 @@ function getParseFunction(string $format): mixed
     return "Differ\\Parsers\\$format\\parse";
 }
 
+/**
+ * @return array<mixed>|string
+ */
+function parseFile(string $filePath): array|string
+{
+    $data = file_get_contents($filePath);
+    if ($data === false) {
+        return "Error reading file $filePath!";
+    }
+
+    $fileType = getFileType($filePath);
+    if ($fileType === 'unknown') {
+        return "Unknown file type $fileType!";
+    }
+
+    $parseFunction = getParseFunction($fileType);
+    $parsedData = $parseFunction($data);
+    if ($parsedData === false) {
+        return "Error parsing file $filePath!";
+    }
+    return $parsedData;
+}
+
 function genDiff(string $firstPath, string $secondPath, string $format = FORMAT_STYLISH): string
 {
-    $firstData = file_get_contents($firstPath);
-    if ($firstData === false) {
-        $firstData = '';
+    $data1 = parseFile($firstPath);
+    if (!is_array($data1)) {
+        return $data1;
     }
-    $secondData = file_get_contents($secondPath);
-    if ($secondData === false) {
-        $secondData = '';
+    $data2 = parseFile($secondPath);
+    if (!is_array($data2)) {
+        return $data2;
     }
-    $parseFunction = getParseFunction(getFileType($firstPath));
-    $diff = compare($parseFunction($firstData), $parseFunction($secondData));
-    $lines = formatStylish($diff);
-    return implode("\n", $lines);
+
+    $diff = compare($data1, $data2);
+    return implode("\n", formatStylish($diff));
 }

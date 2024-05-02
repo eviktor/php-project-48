@@ -25,9 +25,9 @@ function buildJsonTree(string $name, array $jsonData): array
     // ksort($jsonData);
     return mkdir($name, array_map(
         function ($key, $value) {
-            if (isAssocArray($value)) {
-                return buildJsonTree($key, (array)$value);
-            }
+            // if (isAssocArray($value)) {
+            //     return buildJsonTree($key, (array)$value);
+            // }
             return mkfile($key, [ 'data' => $value ]);
         },
         array_keys($jsonData),
@@ -36,15 +36,15 @@ function buildJsonTree(string $name, array $jsonData): array
 }
 
 /**
- * @return array<mixed>
+ * @return array<mixed>|false
  */
-function parse(string $content, string $rootName = ''): array
+function parse(string $content): array|false
 {
     $data = json_decode($content, true);
 
     if (json_last_error() === JSON_ERROR_NONE) {
         if (is_array($data)) {
-            return buildJsonTree($rootName, (array)$data);
+            return buildJsonTree('', (array)$data);
         // } elseif (is_bool($data)) {
         //     return mkfile(toString($data));
         // } else {
@@ -52,5 +52,5 @@ function parse(string $content, string $rootName = ''): array
         }
     }
 
-    return mkdir($rootName);
+    return false;
 }
