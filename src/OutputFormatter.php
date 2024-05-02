@@ -55,10 +55,12 @@ function getFileStylishFormattedLine(array $fileNode, int $level): string
 function getDirStylishFormattedLines(array $dirNode, int $level): array
 {
     $spacing = getStylishSpacing($level);
-    $lines = [ "$spacing{" ];
     $name = getName($dirNode);
+    $lines = [];
     if (!empty($name)) {
-        $lines[] = "$spacing$name:";
+        $lines[] = "$spacing$name: {";
+    } else {
+        $lines[] = "$spacing{";
     }
     $children = getChildren($dirNode);
     foreach ($children as $child) {
