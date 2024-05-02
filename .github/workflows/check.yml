@@ -28,7 +28,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-php-
       - name: Install dependencies
-        run: make install
+        run: make install-dev
       - run: make lint
       - name: Run test & publish code coverage
         uses: paambaati/codeclimate-action@v5
