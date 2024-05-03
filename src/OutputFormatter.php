@@ -10,16 +10,12 @@ use function Php\Immutable\Fs\Trees\trees\isFile;
 function toString(mixed $value): string
 {
     $strValue = '';
-    if (is_bool($value)) {
-        $strValue = ($value ? 'true' : 'false');
-    } elseif (is_string($value)) {
-        $strValue = $value;
-    } elseif (is_array($value)) {
+    if (is_array($value)) {
         $strValue = '[ ' . implode(', ', array_map(fn ($v) => toString($v), $value)) . ' ]';
     } elseif (is_null($value)) {
         $strValue = 'null';
     } else {
-        $strValue = (string)$value;
+        $strValue = trim(var_export($value, true), "'");
     }
     return $strValue;
 }
