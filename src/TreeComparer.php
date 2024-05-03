@@ -18,13 +18,14 @@ function setNodeStatus(array $node, string $status): array
 {
     $name = getName($node);
     $meta = getMeta($node);
+    $meta['status'] = $status;
     if (isFile($node)) {
-        $meta['status'] = $status;
         return mkfile($name, $meta);
     } else {
         $children = getChildren($node);
-        $newChildren = array_map(fn ($child) => setNodeStatus($child, $status), $children);
-        return mkdir($name, $newChildren, $meta);
+        // $newChildren = array_map(fn ($child) => setNodeStatus($child, $status), $children);
+        // return mkdir($name, $newChildren, $meta);
+        return mkdir($name, $children, $meta);
     }
 }
 
@@ -36,6 +37,8 @@ function isEqualNodeData(array $firstNode, array $secondNode): bool
 {
     if (isFile($firstNode) && isFile($secondNode)) {
         return getMeta($firstNode)['data'] === getMeta($secondNode)['data'];
+    } elseif (isDirectory($firstNode) && isDirectory($secondNode)) {
+        return getName($firstNode) === getName($secondNode);
     }
     return false;
 }
@@ -53,7 +56,11 @@ function compareNodeItems(array $leftItem, array $rightItem, bool $isRemoved, bo
     } elseif ($isAdded) {
         $res[] = setNodeStatus($rightItem, 'added');
     } elseif (isEqualNodeData($leftItem, $rightItem)) {
-        $res[] = setNodeStatus($leftItem, 'not changed');
+        if (isFile($leftItem) && isFile($rightItem)) {
+            $res[] = setNodeStatus($leftItem, 'not changed');
+        } else {
+            $res[] = compare($leftItem, $rightItem);
+        }
     } else {
         $res[] = setNodeStatus($leftItem, 'removed');
         $res[] = setNodeStatus($rightItem, 'added');
