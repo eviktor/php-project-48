@@ -50,22 +50,33 @@ function isEqualNodeData(array $firstNode, array $secondNode): bool
  */
 function compareNodeItems(array $leftItem, array $rightItem, bool $isRemoved, bool $isAdded): array
 {
-    $res = [];
     if ($isRemoved) {
-        $res[] = setNodeStatus($leftItem, 'removed');
-    } elseif ($isAdded) {
-        $res[] = setNodeStatus($rightItem, 'added');
-    } elseif (isEqualNodeData($leftItem, $rightItem)) {
-        if (isFile($leftItem) && isFile($rightItem)) {
-            $res[] = setNodeStatus($leftItem, 'not changed');
-        } else {
-            $res[] = compare($leftItem, $rightItem);
-        }
-    } else {
-        $res[] = setNodeStatus($leftItem, 'removed');
-        $res[] = setNodeStatus($rightItem, 'added');
+        return [ setNodeStatus($leftItem, 'removed') ];
     }
-    return $res;
+    if ($isAdded) {
+        return [ setNodeStatus($rightItem, 'added') ];
+    }
+    if (!isEqualNodeData($leftItem, $rightItem)) {
+        return [
+            setNodeStatus($leftItem, 'removed'),
+            setNodeStatus($rightItem, 'added')
+        ];
+    }
+    return handleEqualNodeData($leftItem, $rightItem);
+}
+
+/**
+ * @param array<mixed> $leftItem
+ * @param array<mixed> $rightItem
+ * @return array<mixed>
+ */
+function handleEqualNodeData(array $leftItem, array $rightItem): array
+{
+    if (isFile($leftItem) && isFile($rightItem)) {
+        return [ setNodeStatus($leftItem, 'not changed') ];
+    } else {
+        return [ compare($leftItem, $rightItem) ];
+    }
 }
 
 /**
