@@ -26,7 +26,7 @@ function toString(mixed $value): string
 
 function getStylishSpacing(int $level): string
 {
-    return str_repeat(' ', $level * 2);
+    return str_repeat(' ', max($level * 4 - 2, 0));
 }
 
 /**
@@ -36,7 +36,7 @@ function getFileStylishFormattedLine(array $fileNode, int $level): string
 {
     $name = getName($fileNode);
     $meta = getMeta($fileNode);
-    $status = '';
+    $status = ' ';
     if (array_key_exists('status', $meta)) {
         $map = [ 'removed' => '-', 'not changed' => ' ', 'added' => '+' ];
         $status = $map[$meta['status']];
@@ -45,7 +45,7 @@ function getFileStylishFormattedLine(array $fileNode, int $level): string
     if (array_key_exists('data', $meta)) {
         $line .= ': ' . toString($meta['data']);
     }
-    return $line;
+    return rtrim($line);
 }
 
 /**
@@ -56,17 +56,19 @@ function getDirStylishFormattedLines(array $dirNode, int $level): array
 {
     $spacing = getStylishSpacing($level);
     $name = getName($dirNode);
+    $meta = getMeta($dirNode);
     $lines = [];
-    if (!empty($name)) {
-        $lines[] = "$spacing$name: {";
-    } else {
-        $lines[] = "$spacing{";
+    $status = ' ';
+    if (array_key_exists('status', $meta)) {
+        $map = [ 'removed' => '-', 'not changed' => ' ', 'added' => '+' ];
+        $status = $map[$meta['status']];
     }
+    $lines[] = $level === 0 ? '{' : "$spacing$status $name: {";
     $children = getChildren($dirNode);
     foreach ($children as $child) {
         $lines = array_merge($lines, formatStylish($child, $level + 1));
     }
-    $lines[] = "$spacing}";
+    $lines[] = $level === 0 ? '}' : "$spacing  }";
     return $lines;
 }
 
@@ -77,7 +79,6 @@ function getDirStylishFormattedLines(array $dirNode, int $level): array
 function formatStylish(array $tree, int $level = 0): array
 {
     $lines = [];
-    $spacing = str_repeat(' ', $level * 2);
 
     if (isFile($tree)) {
         $lines[] = getFileStylishFormattedLine($tree, $level);
