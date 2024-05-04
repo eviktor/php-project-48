@@ -19,7 +19,7 @@
     "autoload": {
         "files": [
             "src/Differ.php",
-            "src/OutputFormatter.php",
+            "src/Formatters/Stylish.php",
             "src/Parsers/Json.php",
             "src/Parsers/Yaml.php",
             "src/TreeComparer.php"

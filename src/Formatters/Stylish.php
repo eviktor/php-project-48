@@ -1,6 +1,6 @@
 <?php
 
-namespace Differ\OutputFormatter;
+namespace Differ\Formatters\Stylish;
 
 use function Php\Immutable\Fs\Trees\trees\getChildren;
 use function Php\Immutable\Fs\Trees\trees\getMeta;
@@ -20,7 +20,7 @@ function toString(mixed $value): string
     return $strValue;
 }
 
-function getStylishSpacing(int $level): string
+function getSpacing(int $level): string
 {
     return str_repeat(' ', max($level * 4 - 2, 0));
 }
@@ -28,7 +28,7 @@ function getStylishSpacing(int $level): string
 /**
  * @param array<mixed> $fileNode
  */
-function getFileStylishFormattedLine(array $fileNode, int $level): string
+function buildFileLine(array $fileNode, int $level): string
 {
     $name = getName($fileNode);
     $meta = getMeta($fileNode);
@@ -37,7 +37,7 @@ function getFileStylishFormattedLine(array $fileNode, int $level): string
         $map = [ 'removed' => '-', 'not changed' => ' ', 'added' => '+' ];
         $status = $map[$meta['status']];
     }
-    $line = getStylishSpacing($level) . "$status $name";
+    $line = getSpacing($level) . "$status $name";
     if (array_key_exists('data', $meta)) {
         $line .= ': ' . toString($meta['data']);
     }
@@ -48,9 +48,9 @@ function getFileStylishFormattedLine(array $fileNode, int $level): string
  * @param array<mixed> $dirNode
  * @return array<mixed>
  */
-function getDirStylishFormattedLines(array $dirNode, int $level): array
+function buildDirLines(array $dirNode, int $level): array
 {
-    $spacing = getStylishSpacing($level);
+    $spacing = getSpacing($level);
     $name = getName($dirNode);
     $meta = getMeta($dirNode);
     $lines = [];
@@ -62,7 +62,7 @@ function getDirStylishFormattedLines(array $dirNode, int $level): array
     $lines[] = $level === 0 ? '{' : "$spacing$status $name: {";
     $children = getChildren($dirNode);
     foreach ($children as $child) {
-        $lines = array_merge($lines, formatStylish($child, $level + 1));
+        $lines = array_merge($lines, format($child, $level + 1));
     }
     $lines[] = $level === 0 ? '}' : "$spacing  }";
     return $lines;
@@ -72,14 +72,14 @@ function getDirStylishFormattedLines(array $dirNode, int $level): array
  * @param array<mixed> $tree
  * @return array<mixed>
  */
-function formatStylish(array $tree, int $level = 0): array
+function format(array $tree, int $level = 0): array
 {
     $lines = [];
 
     if (isFile($tree)) {
-        $lines[] = getFileStylishFormattedLine($tree, $level);
+        $lines[] = buildFileLine($tree, $level);
     } else {
-        $lines = array_merge($lines, getDirStylishFormattedLines($tree, $level));
+        $lines = array_merge($lines, buildDirLines($tree, $level));
     }
 
     return $lines;

@@ -2,10 +2,7 @@
 
 namespace Differ\Differ;
 
-use function Differ\OutputFormatter\formatStylish;
 use function Differ\TreeComparer\compare;
-
-const FORMAT_STYLISH = 'stylish';
 
 function getFileType(string $filePath): string
 {
@@ -23,9 +20,15 @@ function getFileType(string $filePath): string
     return $format;
 }
 
-function getParseFunction(string $format): mixed
+function getParseFunction(string $fileType): mixed
 {
-    return "Differ\\Parsers\\$format\\parse";
+    return "Differ\\Parsers\\$fileType\\parse";
+}
+
+function getFormatFunction(string $format): mixed
+{
+    $format = trim(mb_convert_case($format, MB_CASE_TITLE));
+    return "Differ\\Formatters\\$format\\format";
 }
 
 /**
@@ -51,7 +54,7 @@ function parseFile(string $filePath): array|string
     return $parsedData;
 }
 
-function genDiff(string $firstPath, string $secondPath, string $format = FORMAT_STYLISH): string
+function genDiff(string $firstPath, string $secondPath, string $format = 'stylish'): string
 {
     $data1 = parseFile($firstPath);
     if (!is_array($data1)) {
@@ -63,5 +66,6 @@ function genDiff(string $firstPath, string $secondPath, string $format = FORMAT_
     }
 
     $diff = compare($data1, $data2);
-    return implode("\n", formatStylish($diff));
+    $formatFunction = getFormatFunction($format);
+    return implode("\n", $formatFunction($diff));
 }
