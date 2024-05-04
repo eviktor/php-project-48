@@ -1,6 +1,6 @@
 <?php
 
-namespace Differ\TreeComparer;
+namespace Differ\DiffBuilder;
 
 use function Php\Immutable\Fs\Trees\trees\mkdir;
 use function Php\Immutable\Fs\Trees\trees\mkfile;
@@ -22,10 +22,7 @@ function setNodeStatus(array $node, string $status): array
     if (isFile($node)) {
         return mkfile($name, $meta);
     } else {
-        $children = getChildren($node);
-        // $newChildren = array_map(fn ($child) => setNodeStatus($child, $status), $children);
-        // return mkdir($name, $newChildren, $meta);
-        return mkdir($name, $children, $meta);
+        return mkdir($name, getChildren($node), $meta);
     }
 }
 

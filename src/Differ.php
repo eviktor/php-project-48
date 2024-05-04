@@ -2,7 +2,7 @@
 
 namespace Differ\Differ;
 
-use function Differ\TreeComparer\compare;
+use function Differ\DiffBuilder\compare;
 
 function getFileType(string $filePath): string
 {

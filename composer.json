@@ -18,11 +18,11 @@
     ],
     "autoload": {
         "files": [
+            "src/DiffBuilder.php",
             "src/Differ.php",
             "src/Formatters/Stylish.php",
             "src/Parsers/Json.php",
-            "src/Parsers/Yaml.php",
-            "src/TreeComparer.php"
+            "src/Parsers/Yaml.php"
         ]
     },
     "autoload-dev": {
