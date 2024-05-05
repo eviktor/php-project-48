@@ -19,6 +19,7 @@
     "autoload": {
         "files": [
             "src/DiffBuilder.php",
+            "src/DiffMeta.php",
             "src/Differ.php",
             "src/Formatters/Stylish.php",
             "src/Parsers/Json.php",

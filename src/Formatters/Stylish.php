@@ -6,6 +6,8 @@ use function Php\Immutable\Fs\Trees\trees\getChildren;
 use function Php\Immutable\Fs\Trees\trees\getMeta;
 use function Php\Immutable\Fs\Trees\trees\getName;
 use function Php\Immutable\Fs\Trees\trees\isFile;
+use function Differ\DiffMeta\getStatus;
+use function Differ\DiffMeta\getData;
 
 function toString(mixed $value): string
 {
@@ -25,22 +27,23 @@ function getSpacing(int $level): string
     return str_repeat(' ', max($level * 4 - 2, 0));
 }
 
+function getStatusSymbol(string $status): string
+{
+    $map = [ 'removed' => '-', 'not changed' => ' ', 'added' => '+', '' => ' ' ];
+    return $map[$status];
+}
+
 /**
  * @param array<mixed> $fileNode
  */
 function buildFileLine(array $fileNode, int $level): string
 {
+    $spacing = getSpacing($level);
     $name = getName($fileNode);
     $meta = getMeta($fileNode);
-    $status = ' ';
-    if (array_key_exists('status', $meta)) {
-        $map = [ 'removed' => '-', 'not changed' => ' ', 'added' => '+' ];
-        $status = $map[$meta['status']];
-    }
-    $line = getSpacing($level) . "$status $name";
-    if (array_key_exists('data', $meta)) {
-        $line .= ': ' . toString($meta['data']);
-    }
+    $statusSymbol = getStatusSymbol(getStatus($meta));
+    $strData = toString(getData($meta));
+    $line = "$spacing$statusSymbol $name: $strData";
     return rtrim($line);
 }
 
@@ -50,21 +53,21 @@ function buildFileLine(array $fileNode, int $level): string
  */
 function buildDirLines(array $dirNode, int $level): array
 {
+    $lines = [];
+
     $spacing = getSpacing($level);
     $name = getName($dirNode);
     $meta = getMeta($dirNode);
-    $lines = [];
-    $status = ' ';
-    if (array_key_exists('status', $meta)) {
-        $map = [ 'removed' => '-', 'not changed' => ' ', 'added' => '+' ];
-        $status = $map[$meta['status']];
-    }
-    $lines[] = $level === 0 ? '{' : "$spacing$status $name: {";
+    $statusSymbol = getStatusSymbol(getStatus($meta));
+    $lines[] = $level === 0 ? '{' : "$spacing$statusSymbol $name: {";
+
     $children = getChildren($dirNode);
     foreach ($children as $child) {
         $lines = array_merge($lines, format($child, $level + 1));
     }
+
     $lines[] = $level === 0 ? '}' : "$spacing  }";
+
     return $lines;
 }
 

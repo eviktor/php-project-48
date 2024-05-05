@@ -9,6 +9,9 @@ use function Php\Immutable\Fs\Trees\trees\getMeta;
 use function Php\Immutable\Fs\Trees\trees\getName;
 use function Php\Immutable\Fs\Trees\trees\isDirectory;
 use function Php\Immutable\Fs\Trees\trees\isFile;
+use function Differ\DiffMeta\mkMeta;
+use function Differ\DiffMeta\getStatus;
+use function Differ\DiffMeta\getData;
 
 /**
  * @param array<mixed> $node
@@ -18,11 +21,12 @@ function setNodeStatus(array $node, string $status): array
 {
     $name = getName($node);
     $meta = getMeta($node);
-    $meta['status'] = $status;
+    $newMeta = mkMeta($status, getData($meta));
+
     if (isFile($node)) {
-        return mkfile($name, $meta);
+        return mkfile($name, $newMeta);
     } else {
-        return mkdir($name, getChildren($node), $meta);
+        return mkdir($name, getChildren($node), $newMeta);
     }
 }
 
@@ -33,7 +37,7 @@ function setNodeStatus(array $node, string $status): array
 function isEqualNodeData(array $firstNode, array $secondNode): bool
 {
     if (isFile($firstNode) && isFile($secondNode)) {
-        return getMeta($firstNode)['data'] === getMeta($secondNode)['data'];
+        return getData(getMeta($firstNode)) === getData(getMeta($secondNode));
     } elseif (isDirectory($firstNode) && isDirectory($secondNode)) {
         return getName($firstNode) === getName($secondNode);
     }
