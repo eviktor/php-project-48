@@ -3,6 +3,8 @@
 namespace Differ\Differ;
 
 use function Differ\DiffBuilder\compare;
+use function Differ\Formatters\format;
+use function Differ\Parsers\parse;
 
 function getFileType(string $filePath): string
 {
@@ -20,17 +22,6 @@ function getFileType(string $filePath): string
     return $format;
 }
 
-function getParseFunction(string $fileType): mixed
-{
-    return "Differ\\Parsers\\$fileType\\parse";
-}
-
-function getFormatFunction(string $format): mixed
-{
-    $format = trim(mb_convert_case($format, MB_CASE_TITLE));
-    return "Differ\\Formatters\\$format\\format";
-}
-
 /**
  * @return array<mixed>|string
  */
@@ -46,8 +37,7 @@ function parseFile(string $filePath): array|string
         return "Unknown file type $fileType!";
     }
 
-    $parseFunction = getParseFunction($fileType);
-    $parsedData = $parseFunction($data);
+    $parsedData = parse($data, $fileType);
     if ($parsedData === false) {
         return "Error parsing file $filePath!";
     }
@@ -66,6 +56,5 @@ function genDiff(string $firstPath, string $secondPath, string $format = 'stylis
     }
 
     $diff = compare($data1, $data2);
-    $formatFunction = getFormatFunction($format);
-    return implode("\n", $formatFunction($diff));
+    return format($diff, $format);
 }

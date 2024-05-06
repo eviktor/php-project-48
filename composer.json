@@ -21,8 +21,10 @@
             "src/DiffBuilder.php",
             "src/DiffMeta.php",
             "src/Differ.php",
+            "src/Formatters.php",
             "src/Formatters/Stylish.php",
             "src/Formatters/Plain.php",
+            "src/Parsers.php",
             "src/Parsers/Json.php",
             "src/Parsers/Yaml.php"
         ]
