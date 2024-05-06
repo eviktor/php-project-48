@@ -65,8 +65,12 @@ class DifferTest extends TestCase
     }
 
     #[DataProvider('generalProvider')]
-    public function testGeneral(string $fileName1, string $fileName2, string $expectedResultFileName, ?string $style = null): void
-    {
+    public function testGeneral(
+        string $fileName1,
+        string $fileName2,
+        string $expectedResultFileName,
+        ?string $style = null
+    ): void {
         $filePath1 = $this->getFixtureFullPath($fileName1);
         $filePath2 = $this->getFixtureFullPath($fileName2);
         $expectedResultFilePath = $this->getFixtureFullPath($expectedResultFileName);

@@ -8,6 +8,9 @@ function getFormatFunction(string $format): mixed
     return "Differ\\Formatters\\$format\\format";
 }
 
+/**
+ * @param array<mixed> $diff
+ */
 function format(array $diff, string $format): string
 {
     $formatFunction = getFormatFunction($format);
