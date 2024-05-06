@@ -1,6 +1,6 @@
 <?php
 
-namespace Differ\DiffBuilder;
+namespace Differ\Diff\Builder;
 
 use function Php\Immutable\Fs\Trees\trees\mkdir;
 use function Php\Immutable\Fs\Trees\trees\mkfile;
@@ -9,9 +9,9 @@ use function Php\Immutable\Fs\Trees\trees\getMeta;
 use function Php\Immutable\Fs\Trees\trees\getName;
 use function Php\Immutable\Fs\Trees\trees\isDirectory;
 use function Php\Immutable\Fs\Trees\trees\isFile;
-use function Differ\DiffMeta\mkMeta;
-use function Differ\DiffMeta\getStatus;
-use function Differ\DiffMeta\getData;
+use function Differ\Diff\Meta\mkMeta;
+use function Differ\Diff\Meta\getStatus;
+use function Differ\Diff\Meta\getData;
 
 /**
  * @param array<mixed> $node

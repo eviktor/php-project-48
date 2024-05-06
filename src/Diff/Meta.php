@@ -1,6 +1,6 @@
 <?php
 
-namespace Differ\DiffMeta;
+namespace Differ\Diff\Meta;
 
 /**
  * @return array<mixed>

@@ -2,7 +2,7 @@
 
 namespace Differ\Differ;
 
-use function Differ\DiffBuilder\compare;
+use function Differ\Diff\Builder\compare;
 use function Differ\Formatters\format;
 use function Differ\Parsers\parse;
 

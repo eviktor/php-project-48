@@ -18,8 +18,8 @@
     ],
     "autoload": {
         "files": [
-            "src/DiffBuilder.php",
-            "src/DiffMeta.php",
+            "src/Diff/Builder.php",
+            "src/Diff/Meta.php",
             "src/Differ.php",
             "src/Formatters.php",
             "src/Formatters/Stylish.php",

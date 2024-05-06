@@ -6,9 +6,9 @@ use function Php\Immutable\Fs\Trees\trees\getChildren;
 use function Php\Immutable\Fs\Trees\trees\getMeta;
 use function Php\Immutable\Fs\Trees\trees\getName;
 use function Php\Immutable\Fs\Trees\trees\isFile;
-use function Differ\DiffMeta\getStatus;
-use function Differ\DiffMeta\getData;
-use function Differ\DiffMeta\getDataAsString;
+use function Differ\Diff\Meta\getStatus;
+use function Differ\Diff\Meta\getData;
+use function Differ\Diff\Meta\getDataAsString;
 
 function getSpacing(int $level): string
 {
