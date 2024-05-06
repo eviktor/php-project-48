@@ -8,19 +8,7 @@ use function Php\Immutable\Fs\Trees\trees\getName;
 use function Php\Immutable\Fs\Trees\trees\isFile;
 use function Differ\DiffMeta\getStatus;
 use function Differ\DiffMeta\getData;
-
-function toString(mixed $value): string
-{
-    $strValue = '';
-    if (is_array($value)) {
-        $strValue = '[ ' . implode(', ', array_map(fn ($v) => toString($v), $value)) . ' ]';
-    } elseif (is_null($value)) {
-        $strValue = 'null';
-    } else {
-        $strValue = trim(var_export($value, true), "'");
-    }
-    return $strValue;
-}
+use function Differ\DiffMeta\getDataAsString;
 
 function getSpacing(int $level): string
 {
@@ -42,7 +30,7 @@ function buildFileLine(array $fileNode, int $level): string
     $name = getName($fileNode);
     $meta = getMeta($fileNode);
     $statusSymbol = getStatusSymbol(getStatus($meta));
-    $strData = toString(getData($meta));
+    $strData = getDataAsString($meta);
     $line = "$spacing$statusSymbol $name: $strData";
     return rtrim($line);
 }
