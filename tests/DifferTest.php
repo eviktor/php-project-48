@@ -57,20 +57,21 @@ class DifferTest extends TestCase
     {
         return [
             'json 1,2' => [ 'file1.json', 'file2.json', 'result_file1_file2.txt' ],
-            'json 2,1' => [ 'file2.json', 'file1.json', 'result_file2_file1.txt' ],
-            'yaml 1,2' => [ 'file1.yml', 'file2.yml', 'result_file1_file2.txt' ],
+            'json 2,1' => [ 'file2.json', 'file1.json', 'result_file2_file1.txt', 'stylish' ],
+            'yaml 1,2' => [ 'file1.yml', 'file2.yml', 'result_file1_file2.txt', 'stylish' ],
             'yaml 2,1' => [ 'file2.yml', 'file1.yml', 'result_file2_file1.txt' ],
+            'json 1,2 plain' => [ 'file1.json', 'file2.json', 'result_file1_file2_plain.txt', 'plain' ],
         ];
     }
 
     #[DataProvider('generalProvider')]
-    public function testGeneral(string $fileName1, string $fileName2, string $expectedResultFileName): void
+    public function testGeneral(string $fileName1, string $fileName2, string $expectedResultFileName, ?string $style = null): void
     {
         $filePath1 = $this->getFixtureFullPath($fileName1);
         $filePath2 = $this->getFixtureFullPath($fileName2);
         $expectedResultFilePath = $this->getFixtureFullPath($expectedResultFileName);
 
-        $result = genDiff($filePath1, $filePath2);
+        $result = $style ? genDiff($filePath1, $filePath2, $style) : genDiff($filePath1, $filePath2);
         $this->assertStringEqualsFile($expectedResultFilePath, $result);
     }
 }
