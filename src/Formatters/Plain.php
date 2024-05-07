@@ -48,9 +48,7 @@ function getPlainItems(array $allNodes): array
         $data = isFile($node) ? getDataAsString($node, true) : '[complex value]';
 
         if (array_key_exists($name, $acc)) {
-            $acc[$name]['status'] = 'updated';
-            $acc[$name]['prev'] = $acc[$name]['data'];
-            $acc[$name]['data'] = $data;
+            $acc[$name] = [ 'name' => $name, 'status' => 'updated', 'data' => $data, 'prev' => $acc[$name]['data']];
         } else {
             $acc[$name] = [ 'name' => $name, 'status' => $status, 'data' => $data ];
         }
