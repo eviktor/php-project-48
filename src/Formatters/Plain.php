@@ -85,7 +85,7 @@ function buildOutputLines(array $plainItems): array
  * @param array<mixed> $tree
  * @return array<mixed>
  */
-function format(array $tree, int $level = 0): array
+function format(array $tree): array
 {
     $nodes = getAllNodes($tree);
     $plainItems = getPlainItems($nodes);
