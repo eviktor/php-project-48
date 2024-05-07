@@ -20,10 +20,11 @@
         "files": [
             "src/Diff/Builder.php",
             "src/Diff/Meta.php",
+            "src/Diff/Tree.php",
             "src/Differ.php",
             "src/Formatters.php",
-            "src/Formatters/Stylish.php",
             "src/Formatters/Plain.php",
+            "src/Formatters/Stylish.php",
             "src/Parsers.php",
             "src/Parsers/Json.php",
             "src/Parsers/Yaml.php"
