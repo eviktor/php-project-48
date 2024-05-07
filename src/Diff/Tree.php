@@ -7,11 +7,11 @@ namespace Differ\Diff\Tree;
 /**
  * Make directory node
  * @param string $name
- * @param array $children
+ * @param array<mixed> $children
  * @param ?string $status
- * @return array
+ * @return array<mixed>
  */
-function mkdir(string $name, array $children = [], ?string $status = null)
+function mkdir(string $name, array $children = [], ?string $status = null): array
 {
     $node = [
         "name" => $name,
@@ -29,9 +29,9 @@ function mkdir(string $name, array $children = [], ?string $status = null)
  * @param string $name
  * @param mixed $data
  * @param ?string $status
- * @return array
+ * @return array<mixed>
  */
-function mkfile(string $name, mixed $data, ?string $status = null)
+function mkfile(string $name, mixed $data, ?string $status = null): array
 {
     $node = [
         "name" => $name,
@@ -47,8 +47,8 @@ function mkfile(string $name, mixed $data, ?string $status = null)
 
 /**
  * Return children
- * @param array $node
- * @return array
+ * @param array<mixed> $node
+ * @return array<mixed>
  */
 function getChildren($node)
 {
@@ -57,50 +57,50 @@ function getChildren($node)
 
 /**
  * Return status
- * @param array $node
- * @return null|string
+ * @param array<mixed> $node
+ * @return ?string
  */
-function getStatus($node)
+function getStatus($node): ?string
 {
     return $node['status'] ?? null;
 }
 
 /**
  * Return status
- * @param array $node
+ * @param array<mixed> $node
  * @return mixed
  */
-function getData($node)
+function getData($node): mixed
 {
     return $node['data'];
 }
 
 /**
  * Return name
- * @param array $node
+ * @param array<mixed> $node
  * @return string
  */
-function getName($node)
+function getName($node): string
 {
     return $node['name'];
 }
 
 /**
  * Test directory
- * @param array $node
+ * @param array<mixed> $node
  * @return boolean
  */
-function isFile($node)
+function isFile($node): bool
 {
     return $node['type'] == 'file';
 }
 
 /**
  * Test file
- * @param array $node
+ * @param array<mixed> $node
  * @return boolean
  */
-function isDirectory($node)
+function isDirectory($node): bool
 {
     return $node['type'] == 'directory';
 }

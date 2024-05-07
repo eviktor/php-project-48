@@ -16,7 +16,7 @@ function getSpacing(int $level): string
 
 function getStatusSymbol(?string $status): string
 {
-    $map = [ 'removed' => '-', 'not changed' => ' ', 'added' => '+', '' => ' ', null => ' ' ];
+    $map = [ 'removed' => '-', 'not changed' => ' ', 'added' => '+', '' => ' ' ];
     return $map[$status];
 }
 
