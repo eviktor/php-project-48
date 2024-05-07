@@ -8,40 +8,34 @@ namespace Differ\Diff\Tree;
  * Make directory node
  * @param string $name
  * @param array<mixed> $children
- * @param ?string $status
+ * @param string $status
  * @return array<mixed>
  */
-function mkdir(string $name, array $children = [], ?string $status = null): array
+function mkdir(string $name, array $children = [], string $status = ''): array
 {
-    $node = [
+    return [
         "name" => $name,
         "children" => $children,
-        "type" => "directory",
+        "status" => $status,
+        "type" => "directory"
     ];
-    if (!is_null($status)) {
-        $node["status"] = $status;
-    }
-    return $node;
 }
 
 /**
  * Make file node
  * @param string $name
  * @param mixed $data
- * @param ?string $status
+ * @param string $status
  * @return array<mixed>
  */
-function mkfile(string $name, mixed $data, ?string $status = null): array
+function mkfile(string $name, mixed $data, string $status = ''): array
 {
-    $node = [
+    return [
         "name" => $name,
         "data" => $data,
-        "type" => "file",
+        "status" => $status,
+        "type" => "file"
     ];
-    if (!is_null($status)) {
-        $node["status"] = $status;
-    }
-    return $node;
 }
 
 
@@ -58,11 +52,11 @@ function getChildren($node)
 /**
  * Return status
  * @param array<mixed> $node
- * @return ?string
+ * @return string
  */
-function getStatus($node): ?string
+function getStatus($node): string
 {
-    return $node['status'] ?? null;
+    return $node['status'];
 }
 
 /**

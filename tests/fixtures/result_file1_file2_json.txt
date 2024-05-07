@@ -7,38 +7,38 @@
                 {
                     "name": "follow",
                     "data": false,
-                    "type": "file",
-                    "status": "added"
+                    "status": "added",
+                    "type": "file"
                 },
                 {
                     "name": "setting1",
                     "data": "Value 1",
-                    "type": "file",
-                    "status": "not changed"
+                    "status": "not changed",
+                    "type": "file"
                 },
                 {
                     "name": "setting2",
                     "data": 200,
-                    "type": "file",
-                    "status": "removed"
+                    "status": "removed",
+                    "type": "file"
                 },
                 {
                     "name": "setting3",
                     "data": true,
-                    "type": "file",
-                    "status": "removed"
+                    "status": "removed",
+                    "type": "file"
                 },
                 {
                     "name": "setting3",
                     "data": null,
-                    "type": "file",
-                    "status": "added"
+                    "status": "added",
+                    "type": "file"
                 },
                 {
                     "name": "setting4",
                     "data": "blah blah",
-                    "type": "file",
-                    "status": "added"
+                    "status": "added",
+                    "type": "file"
                 },
                 {
                     "name": "setting5",
@@ -46,11 +46,12 @@
                         {
                             "name": "key5",
                             "data": "value5",
+                            "status": "",
                             "type": "file"
                         }
                     ],
-                    "type": "directory",
-                    "status": "added"
+                    "status": "added",
+                    "type": "directory"
                 },
                 {
                     "name": "setting6",
@@ -61,34 +62,37 @@
                                 {
                                     "name": "wow",
                                     "data": "",
-                                    "type": "file",
-                                    "status": "removed"
+                                    "status": "removed",
+                                    "type": "file"
                                 },
                                 {
                                     "name": "wow",
                                     "data": "so much",
-                                    "type": "file",
-                                    "status": "added"
+                                    "status": "added",
+                                    "type": "file"
                                 }
                             ],
+                            "status": "",
                             "type": "directory"
                         },
                         {
                             "name": "key",
                             "data": "value",
-                            "type": "file",
-                            "status": "not changed"
+                            "status": "not changed",
+                            "type": "file"
                         },
                         {
                             "name": "ops",
                             "data": "vops",
-                            "type": "file",
-                            "status": "added"
+                            "status": "added",
+                            "type": "file"
                         }
                     ],
+                    "status": "",
                     "type": "directory"
                 }
             ],
+            "status": "",
             "type": "directory"
         },
         {
@@ -97,20 +101,20 @@
                 {
                     "name": "baz",
                     "data": "bas",
-                    "type": "file",
-                    "status": "removed"
+                    "status": "removed",
+                    "type": "file"
                 },
                 {
                     "name": "baz",
                     "data": "bars",
-                    "type": "file",
-                    "status": "added"
+                    "status": "added",
+                    "type": "file"
                 },
                 {
                     "name": "foo",
                     "data": "bar",
-                    "type": "file",
-                    "status": "not changed"
+                    "status": "not changed",
+                    "type": "file"
                 },
                 {
                     "name": "nest",
@@ -118,19 +122,21 @@
                         {
                             "name": "key",
                             "data": "value",
+                            "status": "",
                             "type": "file"
                         }
                     ],
-                    "type": "directory",
-                    "status": "removed"
+                    "status": "removed",
+                    "type": "directory"
                 },
                 {
                     "name": "nest",
                     "data": "str",
-                    "type": "file",
-                    "status": "added"
+                    "status": "added",
+                    "type": "file"
                 }
             ],
+            "status": "",
             "type": "directory"
         },
         {
@@ -139,6 +145,7 @@
                 {
                     "name": "abc",
                     "data": 12345,
+                    "status": "",
                     "type": "file"
                 },
                 {
@@ -147,14 +154,16 @@
                         {
                             "name": "id",
                             "data": 45,
+                            "status": "",
                             "type": "file"
                         }
                     ],
+                    "status": "",
                     "type": "directory"
                 }
             ],
-            "type": "directory",
-            "status": "removed"
+            "status": "removed",
+            "type": "directory"
         },
         {
             "name": "group3",
@@ -168,23 +177,28 @@
                                 {
                                     "name": "number",
                                     "data": 45,
+                                    "status": "",
                                     "type": "file"
                                 }
                             ],
+                            "status": "",
                             "type": "directory"
                         }
                     ],
+                    "status": "",
                     "type": "directory"
                 },
                 {
                     "name": "fee",
                     "data": 100500,
+                    "status": "",
                     "type": "file"
                 }
             ],
-            "type": "directory",
-            "status": "added"
+            "status": "added",
+            "type": "directory"
         }
     ],
+    "status": "",
     "type": "directory"
 }
