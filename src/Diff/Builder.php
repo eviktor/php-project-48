@@ -2,16 +2,14 @@
 
 namespace Differ\Diff\Builder;
 
-use function Php\Immutable\Fs\Trees\trees\mkdir;
-use function Php\Immutable\Fs\Trees\trees\mkfile;
-use function Php\Immutable\Fs\Trees\trees\getChildren;
-use function Php\Immutable\Fs\Trees\trees\getMeta;
-use function Php\Immutable\Fs\Trees\trees\getName;
-use function Php\Immutable\Fs\Trees\trees\isDirectory;
-use function Php\Immutable\Fs\Trees\trees\isFile;
-use function Differ\Diff\Meta\mkMeta;
-use function Differ\Diff\Meta\getStatus;
-use function Differ\Diff\Meta\getData;
+use function Differ\Diff\Tree\mkdir;
+use function Differ\Diff\Tree\mkfile;
+use function Differ\Diff\Tree\getChildren;
+use function Differ\Diff\Tree\getName;
+use function Differ\Diff\Tree\getStatus;
+use function Differ\Diff\Tree\getData;
+use function Differ\Diff\Tree\isDirectory;
+use function Differ\Diff\Tree\isFile;
 
 /**
  * @param array<mixed> $node
@@ -19,14 +17,10 @@ use function Differ\Diff\Meta\getData;
  */
 function setNodeStatus(array $node, string $status): array
 {
-    $name = getName($node);
-    $meta = getMeta($node);
-    $newMeta = mkMeta($status, getData($meta));
-
     if (isFile($node)) {
-        return mkfile($name, $newMeta);
+        return mkfile(getName($node), getData($node), $status);
     } else {
-        return mkdir($name, getChildren($node), $newMeta);
+        return mkdir(getName($node), getChildren($node), $status);
     }
 }
 
@@ -37,7 +31,7 @@ function setNodeStatus(array $node, string $status): array
 function isEqualNodeData(array $firstNode, array $secondNode): bool
 {
     if (isFile($firstNode) && isFile($secondNode)) {
-        return getData(getMeta($firstNode)) === getData(getMeta($secondNode));
+        return getData($firstNode) === getData($secondNode);
     } elseif (isDirectory($firstNode) && isDirectory($secondNode)) {
         return getName($firstNode) === getName($secondNode);
     }
@@ -112,5 +106,5 @@ function compare(array $firstTree, array $secondTree): array
     );
     usort($newChildren, fn ($a, $b) => getName($a) <=> getName($b));
 
-    return mkdir(getName($firstTree), $newChildren, getMeta($firstTree));
+    return mkdir(getName($firstTree), $newChildren, getStatus($firstTree));
 }

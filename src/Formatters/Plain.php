@@ -2,16 +2,14 @@
 
 namespace Differ\Formatters\Plain;
 
-use function Php\Immutable\Fs\Trees\trees\mkdir;
-use function Php\Immutable\Fs\Trees\trees\mkfile;
-use function Php\Immutable\Fs\Trees\trees\getChildren;
-use function Php\Immutable\Fs\Trees\trees\getMeta;
-use function Php\Immutable\Fs\Trees\trees\getName;
-use function Php\Immutable\Fs\Trees\trees\isFile;
-use function Differ\Diff\Meta\mkMeta;
-use function Differ\Diff\Meta\getStatus;
-use function Differ\Diff\Meta\getData;
-use function Differ\Diff\Meta\getDataAsString;
+use function Differ\Diff\Tree\mkdir;
+use function Differ\Diff\Tree\mkfile;
+use function Differ\Diff\Tree\getChildren;
+use function Differ\Diff\Tree\getName;
+use function Differ\Diff\Tree\getStatus;
+use function Differ\Diff\Tree\getData;
+use function Differ\Diff\Tree\getDataAsString;
+use function Differ\Diff\Tree\isFile;
 
 /**
  * @param array<mixed> $tree
@@ -21,20 +19,16 @@ use function Differ\Diff\Meta\getDataAsString;
 function getAllNodes(array $tree, string $path = '', array $allNodes = []): array
 {
     $name = getName($tree);
-    $meta = getMeta($tree);
-
     $newName = empty($path) ? $name : "$path.$name";
-    $newMeta = mkMeta(getStatus($meta), getData($meta));
     if (isFile($tree)) {
-        $allNodes[] = mkFile($newName, $newMeta);
+        $allNodes[] = mkfile($newName, getData($tree), getStatus($tree));
     } else {
-        $allNodes[] = mkDir($newName, [], $newMeta);
+        $allNodes[] = mkdir($newName, [], getStatus($tree));
         $children = getChildren($tree);
         foreach ($children as $child) {
             $allNodes = getAllNodes($child, $newName, $allNodes);
         }
     }
-
     return $allNodes;
 }
 
@@ -46,13 +40,12 @@ function getPlainItems(array $allNodes): array
 {
     return array_reduce($allNodes, function ($acc, $node) {
         $name = getName($node);
-        $meta = getMeta($node);
-        $status = getStatus($meta);
+        $status = getStatus($node);
         if (empty($name) || empty($status) || $status === 'not changed') {
             return $acc;
         }
 
-        $data = isFile($node) ? getDataAsString($meta, true) : '[complex value]';
+        $data = isFile($node) ? getDataAsString($node, true) : '[complex value]';
 
         if (array_key_exists($name, $acc)) {
             $acc[$name]['status'] = 'updated';

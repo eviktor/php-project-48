@@ -2,22 +2,21 @@
 
 namespace Differ\Formatters\Stylish;
 
-use function Php\Immutable\Fs\Trees\trees\getChildren;
-use function Php\Immutable\Fs\Trees\trees\getMeta;
-use function Php\Immutable\Fs\Trees\trees\getName;
-use function Php\Immutable\Fs\Trees\trees\isFile;
-use function Differ\Diff\Meta\getStatus;
-use function Differ\Diff\Meta\getData;
-use function Differ\Diff\Meta\getDataAsString;
+use function Differ\Diff\Tree\getChildren;
+use function Differ\Diff\Tree\getName;
+use function Differ\Diff\Tree\getStatus;
+use function Differ\Diff\Tree\getData;
+use function Differ\Diff\Tree\getDataAsString;
+use function Differ\Diff\Tree\isFile;
 
 function getSpacing(int $level): string
 {
     return str_repeat(' ', max($level * 4 - 2, 0));
 }
 
-function getStatusSymbol(string $status): string
+function getStatusSymbol(?string $status): string
 {
-    $map = [ 'removed' => '-', 'not changed' => ' ', 'added' => '+', '' => ' ' ];
+    $map = [ 'removed' => '-', 'not changed' => ' ', 'added' => '+', '' => ' ', null => ' ' ];
     return $map[$status];
 }
 
@@ -28,9 +27,8 @@ function buildFileLine(array $fileNode, int $level): string
 {
     $spacing = getSpacing($level);
     $name = getName($fileNode);
-    $meta = getMeta($fileNode);
-    $statusSymbol = getStatusSymbol(getStatus($meta));
-    $strData = getDataAsString($meta);
+    $statusSymbol = getStatusSymbol(getStatus($fileNode));
+    $strData = getDataAsString($fileNode);
     $line = "$spacing$statusSymbol $name: $strData";
     return rtrim($line);
 }
@@ -45,8 +43,7 @@ function buildDirLines(array $dirNode, int $level): array
 
     $spacing = getSpacing($level);
     $name = getName($dirNode);
-    $meta = getMeta($dirNode);
-    $statusSymbol = getStatusSymbol(getStatus($meta));
+    $statusSymbol = getStatusSymbol(getStatus($dirNode));
     $lines[] = $level === 0 ? '{' : "$spacing$statusSymbol $name: {";
 
     $children = getChildren($dirNode);

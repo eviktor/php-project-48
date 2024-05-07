@@ -5,7 +5,6 @@
     "require": {
         "php": ">=8.3",
         "docopt/docopt": "^1.0",
-        "hexlet/trees": "^1.1",
         "symfony/yaml": "^7.0"
     },
     "require-dev": {
@@ -19,10 +18,10 @@
     "autoload": {
         "files": [
             "src/Diff/Builder.php",
-            "src/Diff/Meta.php",
             "src/Diff/Tree.php",
             "src/Differ.php",
             "src/Formatters.php",
+            "src/Formatters/Json.php",
             "src/Formatters/Plain.php",
             "src/Formatters/Stylish.php",
             "src/Parsers.php",

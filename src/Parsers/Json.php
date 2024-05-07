@@ -2,8 +2,8 @@
 
 namespace Differ\Parsers\Json;
 
-use function Php\Immutable\Fs\Trees\trees\mkdir;
-use function Php\Immutable\Fs\Trees\trees\mkfile;
+use function Differ\Diff\Tree\mkdir;
+use function Differ\Diff\Tree\mkfile;
 
 function isAssocArray(mixed $arr): bool
 {
@@ -27,7 +27,7 @@ function buildJsonTree(string $name, array $jsonData): array
             if (isAssocArray($value)) {
                 return buildJsonTree($key, (array)$value);
             }
-            return mkfile($key, [ 'data' => $value ]);
+            return mkfile($key, $value);
         },
         array_keys($jsonData),
         array_values($jsonData)

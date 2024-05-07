@@ -6,8 +6,6 @@ use Symfony\Component\Yaml\Yaml;
 use Symfony\Component\Yaml\Exception\ParseException;
 
 use function Differ\Parsers\Json\parse as parseJson;
-use function Php\Immutable\Fs\Trees\trees\mkdir;
-use function Php\Immutable\Fs\Trees\trees\mkfile;
 
 /**
  * @return array<mixed>|false
