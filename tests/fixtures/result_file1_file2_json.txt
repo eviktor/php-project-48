@@ -1,0 +1,190 @@
+{
+    "name": "",
+    "children": [
+        {
+            "name": "common",
+            "children": [
+                {
+                    "name": "follow",
+                    "data": false,
+                    "type": "file",
+                    "status": "added"
+                },
+                {
+                    "name": "setting1",
+                    "data": "Value 1",
+                    "type": "file",
+                    "status": "not changed"
+                },
+                {
+                    "name": "setting2",
+                    "data": 200,
+                    "type": "file",
+                    "status": "removed"
+                },
+                {
+                    "name": "setting3",
+                    "data": true,
+                    "type": "file",
+                    "status": "removed"
+                },
+                {
+                    "name": "setting3",
+                    "data": null,
+                    "type": "file",
+                    "status": "added"
+                },
+                {
+                    "name": "setting4",
+                    "data": "blah blah",
+                    "type": "file",
+                    "status": "added"
+                },
+                {
+                    "name": "setting5",
+                    "children": [
+                        {
+                            "name": "key5",
+                            "data": "value5",
+                            "type": "file"
+                        }
+                    ],
+                    "type": "directory",
+                    "status": "added"
+                },
+                {
+                    "name": "setting6",
+                    "children": [
+                        {
+                            "name": "doge",
+                            "children": [
+                                {
+                                    "name": "wow",
+                                    "data": "",
+                                    "type": "file",
+                                    "status": "removed"
+                                },
+                                {
+                                    "name": "wow",
+                                    "data": "so much",
+                                    "type": "file",
+                                    "status": "added"
+                                }
+                            ],
+                            "type": "directory"
+                        },
+                        {
+                            "name": "key",
+                            "data": "value",
+                            "type": "file",
+                            "status": "not changed"
+                        },
+                        {
+                            "name": "ops",
+                            "data": "vops",
+                            "type": "file",
+                            "status": "added"
+                        }
+                    ],
+                    "type": "directory"
+                }
+            ],
+            "type": "directory"
+        },
+        {
+            "name": "group1",
+            "children": [
+                {
+                    "name": "baz",
+                    "data": "bas",
+                    "type": "file",
+                    "status": "removed"
+                },
+                {
+                    "name": "baz",
+                    "data": "bars",
+                    "type": "file",
+                    "status": "added"
+                },
+                {
+                    "name": "foo",
+                    "data": "bar",
+                    "type": "file",
+                    "status": "not changed"
+                },
+                {
+                    "name": "nest",
+                    "children": [
+                        {
+                            "name": "key",
+                            "data": "value",
+                            "type": "file"
+                        }
+                    ],
+                    "type": "directory",
+                    "status": "removed"
+                },
+                {
+                    "name": "nest",
+                    "data": "str",
+                    "type": "file",
+                    "status": "added"
+                }
+            ],
+            "type": "directory"
+        },
+        {
+            "name": "group2",
+            "children": [
+                {
+                    "name": "abc",
+                    "data": 12345,
+                    "type": "file"
+                },
+                {
+                    "name": "deep",
+                    "children": [
+                        {
+                            "name": "id",
+                            "data": 45,
+                            "type": "file"
+                        }
+                    ],
+                    "type": "directory"
+                }
+            ],
+            "type": "directory",
+            "status": "removed"
+        },
+        {
+            "name": "group3",
+            "children": [
+                {
+                    "name": "deep",
+                    "children": [
+                        {
+                            "name": "id",
+                            "children": [
+                                {
+                                    "name": "number",
+                                    "data": 45,
+                                    "type": "file"
+                                }
+                            ],
+                            "type": "directory"
+                        }
+                    ],
+                    "type": "directory"
+                },
+                {
+                    "name": "fee",
+                    "data": 100500,
+                    "type": "file"
+                }
+            ],
+            "type": "directory",
+            "status": "added"
+        }
+    ],
+    "type": "directory"
+}
