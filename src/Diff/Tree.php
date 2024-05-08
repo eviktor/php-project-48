@@ -101,17 +101,14 @@ function isDirectory($node): bool
 
 function toString(mixed $value, bool $useQuotesForStrings = false): string
 {
-    $strValue = '';
     if (is_array($value)) {
-        $strValue = '[ ' . implode(', ', array_map(fn ($v) => toString($v), $value)) . ' ]';
+        return '[ ' . implode(', ', array_map(fn ($v) => toString($v), $value)) . ' ]';
     } elseif (is_null($value)) {
-        $strValue = 'null';
+        return 'null';
     } elseif (is_string($value)) {
-        $strValue = ($useQuotesForStrings ? "'$value'" : $value);
-    } else {
-        $strValue = trim(var_export($value, true), "'");
+        return ($useQuotesForStrings ? "'$value'" : $value);
     }
-    return $strValue;
+    return trim(var_export($value, true), "'");
 }
 
 /**

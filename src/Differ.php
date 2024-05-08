@@ -9,17 +9,14 @@ use function Differ\Parsers\parse;
 function getFileType(string $filePath): string
 {
     $ext = strtolower(pathinfo($filePath, PATHINFO_EXTENSION));
-    $format = 'unknown';
     switch ($ext) {
         case 'json':
-            $format = 'Json';
-            break;
+            return 'Json';
         case 'yml':
         case 'yaml':
-            $format = 'Yaml';
-            break;
+            return 'Yaml';
     }
-    return $format;
+    return 'unknown';
 }
 
 /**

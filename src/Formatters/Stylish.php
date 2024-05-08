@@ -14,7 +14,7 @@ function getSpacing(int $level): string
     return str_repeat(' ', max($level * 4 - 2, 0));
 }
 
-function getStatusSymbol(?string $status): string
+function getStatusSymbol(string $status): string
 {
     $map = [ 'removed' => '-', 'not changed' => ' ', 'added' => '+', '' => ' ' ];
     return $map[$status];
@@ -38,21 +38,19 @@ function buildFileLine(array $fileNode, int $level): string
  */
 function buildDirLines(array $dirNode, int $level): array
 {
-    $lines = [];
-
     $spacing = getSpacing($level);
     $name = getName($dirNode);
     $statusSymbol = getStatusSymbol(getStatus($dirNode));
-    $lines[] = $level === 0 ? '{' : "$spacing$statusSymbol $name: {";
+    $beginLine = $level === 0 ? '{' : "$spacing$statusSymbol $name: {";
 
-    $lines = array_reduce(
+    $childrenLines = array_reduce(
         getChildren($dirNode),
         fn ($acc, $child) => array_merge($acc, format($child, $level + 1)),
-        $lines
+        []
     );
 
-    $lines[] = $level === 0 ? '}' : "$spacing  }";
-    return $lines;
+    $endLine = $level === 0 ? '}' : "$spacing  }";
+    return [ $beginLine, ...$childrenLines, $endLine ];
 }
 
 /**
@@ -61,13 +59,9 @@ function buildDirLines(array $dirNode, int $level): array
  */
 function format(array $tree, int $level = 0): array
 {
-    $lines = [];
-
     if (isFile($tree)) {
-        $lines[] = buildFileLine($tree, $level);
+        return [ buildFileLine($tree, $level) ];
     } else {
-        $lines = array_merge($lines, buildDirLines($tree, $level));
+        return buildDirLines($tree, $level);
     }
-
-    return $lines;
 }

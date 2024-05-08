@@ -4,8 +4,7 @@ namespace Differ\Formatters;
 
 function getFormatFunction(string $format): mixed
 {
-    $format = trim(mb_convert_case($format, MB_CASE_TITLE));
-    return "Differ\\Formatters\\$format\\format";
+    return 'Differ\\Formatters\\' . trim(mb_convert_case($format, MB_CASE_TITLE)) . '\\format';
 }
 
 /**

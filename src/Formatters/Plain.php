@@ -19,18 +19,19 @@ use function Differ\Diff\Tree\isFile;
 function getAllNodes(array $tree, string $path = '', array $allNodes = []): array
 {
     $name = getName($tree);
-    $newName = empty($path) ? $name : "$path.$name";
+    $newName = $path === '' ? $name : "$path.$name";
     if (isFile($tree)) {
-        $allNodes[] = mkfile($newName, getData($tree), getStatus($tree));
-    } else {
-        $allNodes[] = mkdir($newName, [], getStatus($tree));
-        $allNodes = array_reduce(
-            getChildren($tree),
-            fn ($acc, $child) => getAllNodes($child, $newName, $acc),
-            $allNodes
-        );
+        $fileNode = mkfile($newName, getData($tree), getStatus($tree));
+        return [ ...$allNodes,  $fileNode ];
     }
-    return $allNodes;
+
+    $dirNode = mkdir($newName, [], getStatus($tree));
+    $childrenNodes =  array_reduce(
+        getChildren($tree),
+        fn ($acc, $child) => getAllNodes($child, $newName, $acc),
+        []
+    );
+    return [ ...$allNodes, $dirNode, ...$childrenNodes];
 }
 
 /**
@@ -42,18 +43,30 @@ function getPlainItems(array $allNodes): array
     return array_reduce($allNodes, function ($acc, $node) {
         $name = getName($node);
         $status = getStatus($node);
-        if (empty($name) || empty($status) || $status === 'not changed') {
+        if ($name === '' || $status === '' || $status === 'not changed') {
             return $acc;
         }
 
         $data = isFile($node) ? getDataAsString($node, true) : '[complex value]';
-
         if (array_key_exists($name, $acc)) {
-            $acc[$name] = [ 'name' => $name, 'status' => 'updated', 'data' => $data, 'prev' => $acc[$name]['data']];
+            $updatedNodes = [
+                "$name" => [
+                    'name' => $name,
+                    'status' => 'updated',
+                    'data' => $data,
+                    'prev' => $acc[$name]['data']
+                ]
+            ];
+            $otherdNodes = array_filter($acc, fn ($nodeName) => $nodeName !== $name, ARRAY_FILTER_USE_KEY);
+            return [ ...$otherdNodes, ...$updatedNodes ];
         } else {
-            $acc[$name] = [ 'name' => $name, 'status' => $status, 'data' => $data ];
+            $newNodes = [
+                "$name" => [
+                    'name' => $name, 'status' => $status, 'data' => $data
+                ]
+            ];
+            return [ ...$acc, ...$newNodes ];
         }
-        return $acc;
     }, []);
 }
 

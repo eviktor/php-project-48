@@ -43,7 +43,7 @@ function parse(string $content): array|false
 
     if (json_last_error() === JSON_ERROR_NONE) {
         if (is_array($data)) {
-            return buildJsonTree('', (array)$data);
+            return buildJsonTree('', $data);
         }
     }
 
