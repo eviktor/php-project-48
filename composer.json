@@ -3,7 +3,7 @@
     "description": "hexlet study project",
     "license": "MIT",
     "require": {
-        "php": ">=8.3",
+        "php": ">=8.2",
         "docopt/docopt": "^1.0",
         "symfony/yaml": "^7.0"
     },

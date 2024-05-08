@@ -13,7 +13,7 @@ The utility compares 2 plain json/xaml files.
 
 ## Requirements
 
-* php 8.3.0+
+* php 8.2.0+
 * composer
 
 ## Install
