@@ -29,8 +29,7 @@ function buildFileLine(array $fileNode, int $level): string
     $name = getName($fileNode);
     $statusSymbol = getStatusSymbol(getStatus($fileNode));
     $strData = getDataAsString($fileNode);
-    $line = "$spacing$statusSymbol $name: $strData";
-    return rtrim($line);
+    return "$spacing$statusSymbol $name: $strData";
 }
 
 /**

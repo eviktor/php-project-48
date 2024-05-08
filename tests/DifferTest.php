@@ -62,6 +62,8 @@ class DifferTest extends TestCase
             'yaml 2,1' => [ 'file2.yml', 'file1.yml', 'result_file2_file1.txt' ],
             'json 1,2 plain' => [ 'file1.json', 'file2.json', 'result_file1_file2_plain.txt', 'plain' ],
             'yaml 1,2 json' => [ 'file1.yml', 'file2.yml', 'result_file1_file2_json.txt', 'json' ],
+            'hexlet json' => [ 'hexlet/file1.json', 'hexlet/file2.json', 'hexlet/diff.stylish' ],
+            'hexlet yaml plain' => [ 'hexlet/file1.yaml', 'hexlet/file2.yaml', 'hexlet/diff.plain', 'plain' ],
         ];
     }
 
