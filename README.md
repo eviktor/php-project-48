@@ -26,4 +26,4 @@ make install
 
 ## Demo
 
-[![asciicast](https://asciinema.org/a/imjRIBcMGVUhATbVcVqqZUXZQ.svg)](https://asciinema.org/a/imjRIBcMGVUhATbVcVqqZUXZQ)
+[![asciicast](https://asciinema.org/a/lVxSJanmRgMjaExbU9CGUVZ38.svg)](https://asciinema.org/a/lVxSJanmRgMjaExbU9CGUVZ38)

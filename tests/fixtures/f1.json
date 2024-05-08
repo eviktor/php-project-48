@@ -1,0 +1,9 @@
+{
+  "group1": {
+    "baz": "bas",
+    "foo": "bar",
+    "nest": {
+      "key": "value"
+    }
+  }
+}
