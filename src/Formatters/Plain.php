@@ -24,10 +24,11 @@ function getAllNodes(array $tree, string $path = '', array $allNodes = []): arra
         $allNodes[] = mkfile($newName, getData($tree), getStatus($tree));
     } else {
         $allNodes[] = mkdir($newName, [], getStatus($tree));
-        $children = getChildren($tree);
-        foreach ($children as $child) {
-            $allNodes = getAllNodes($child, $newName, $allNodes);
-        }
+        $allNodes = array_reduce(
+            getChildren($tree),
+            fn ($acc, $child) => getAllNodes($child, $newName, $acc),
+            $allNodes
+        );
     }
     return $allNodes;
 }
@@ -62,21 +63,19 @@ function getPlainItems(array $allNodes): array
  */
 function buildOutputLines(array $plainItems): array
 {
-    $lines = [];
-    foreach ($plainItems as $item) {
-        switch ($item['status']) {
-            case 'added':
-                $lines[] = "Property '{$item['name']}' was added with value: {$item['data']}";
-                break;
-            case 'removed':
-                $lines[] = "Property '{$item['name']}' was removed";
-                break;
-            case 'updated':
-                $lines[] = "Property '{$item['name']}' was updated. From {$item['prev']} to {$item['data']}";
-                break;
-        }
-    }
-    return $lines;
+    return array_map(
+        function ($item) {
+            switch ($item['status']) {
+                case 'added':
+                    return "Property '{$item['name']}' was added with value: {$item['data']}";
+                case 'removed':
+                    return "Property '{$item['name']}' was removed";
+                case 'updated':
+                    return "Property '{$item['name']}' was updated. From {$item['prev']} to {$item['data']}";
+            }
+        },
+        $plainItems
+    );
 }
 
 /**

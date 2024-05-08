@@ -46,13 +46,13 @@ function buildDirLines(array $dirNode, int $level): array
     $statusSymbol = getStatusSymbol(getStatus($dirNode));
     $lines[] = $level === 0 ? '{' : "$spacing$statusSymbol $name: {";
 
-    $children = getChildren($dirNode);
-    foreach ($children as $child) {
-        $lines = array_merge($lines, format($child, $level + 1));
-    }
+    $lines = array_reduce(
+        getChildren($dirNode),
+        fn ($acc, $child) => array_merge($acc, format($child, $level + 1)),
+        $lines
+    );
 
     $lines[] = $level === 0 ? '}' : "$spacing  }";
-
     return $lines;
 }
 
