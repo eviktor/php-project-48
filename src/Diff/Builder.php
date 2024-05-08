@@ -2,6 +2,7 @@
 
 namespace Differ\Diff\Builder;
 
+use function Functional\sort as fsort;
 use function Differ\Diff\Tree\mkdir;
 use function Differ\Diff\Tree\mkfile;
 use function Differ\Diff\Tree\getChildren;
@@ -98,13 +99,12 @@ function compare(array $firstTree, array $secondTree): array
             return array_merge($acc, compareNodeItems(
                 $leftItems[$key] ?? [],
                 $rightItems[$key] ?? [],
-                in_array($key, $removedKeys),
-                in_array($key, $addedKeys)
+                in_array($key, $removedKeys, true),
+                in_array($key, $addedKeys, true)
             ));
         },
         []
     );
-    usort($newChildren, fn ($a, $b) => getName($a) <=> getName($b));
-
-    return mkdir(getName($firstTree), $newChildren, getStatus($firstTree));
+    $sortedChildren = fsort($newChildren, fn ($a, $b) => getName($a) <=> getName($b));
+    return mkdir(getName($firstTree), $sortedChildren, getStatus($firstTree));
 }
