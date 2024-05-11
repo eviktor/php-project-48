@@ -53,7 +53,7 @@ function genDiff(string $firstPath, string $secondPath, string $format = 'stylis
 {
     $formatType = getFormatType($format);
     if ($formatType === 'unknown') {
-        return "Unknow format $format!";
+        return "Unknown format $format!";
     }
 
     $data1 = parseFile($firstPath);

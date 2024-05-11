@@ -102,7 +102,8 @@ function isDirectory($node): bool
 function toString(mixed $value, bool $useQuotesForStrings = false): string
 {
     if (is_array($value)) {
-        return '[ ' . implode(', ', array_map(fn ($v) => toString($v), $value)) . ' ]';
+        $data = implode(', ', array_map(fn ($v) => toString($v), $value));
+        return "[ $data ]";
     } elseif (is_null($value)) {
         return 'null';
     } elseif (is_string($value)) {
