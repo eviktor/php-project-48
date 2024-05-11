@@ -12,7 +12,7 @@ use const Differ\Formatters\VALID_FORMAT_TYPES;
 function getFileType(string $filePath): string
 {
     $ext = mb_convert_case(pathinfo($filePath, PATHINFO_EXTENSION), MB_CASE_TITLE);
-    if (in_array($ext, VALID_FILE_TYPES)) {
+    if (in_array($ext, VALID_FILE_TYPES, true)) {
         return $ext;
     }
     return 'unknown';
@@ -21,7 +21,7 @@ function getFileType(string $filePath): string
 function getFormatType(string $format): string
 {
     $formatType = mb_convert_case($format, MB_CASE_TITLE);
-    if (in_array($formatType, VALID_FORMAT_TYPES)) {
+    if (in_array($formatType, VALID_FORMAT_TYPES, true)) {
         return $formatType;
     }
     return 'unknown';
