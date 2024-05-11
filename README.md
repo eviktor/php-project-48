@@ -27,3 +27,25 @@ make install
 ## Demo
 
 [![asciicast](https://asciinema.org/a/lVxSJanmRgMjaExbU9CGUVZ38.svg)](https://asciinema.org/a/lVxSJanmRgMjaExbU9CGUVZ38)
+
+## Project Steps
+
+### Step 3 demo
+
+[![asciicast](https://asciinema.org/a/XXMlEY16K3vQ1bvR8f1CpBGH2.svg)](https://asciinema.org/a/XXMlEY16K3vQ1bvR8f1CpBGH2)
+
+### Step 5 demo
+
+[![asciicast](https://asciinema.org/a/hLnTjq4gFNVbCAxRRZtJ29urF.svg)](https://asciinema.org/a/hLnTjq4gFNVbCAxRRZtJ29urF)
+
+### Step 6 demo
+
+[![asciicast](https://asciinema.org/a/hLnTjq4gFNVbCAxRRZtJ29urF.svg)](https://asciinema.org/a/hLnTjq4gFNVbCAxRRZtJ29urF)
+
+### Step 7 demo
+
+[![asciicast](https://asciinema.org/a/imjRIBcMGVUhATbVcVqqZUXZQ.svg)](https://asciinema.org/a/imjRIBcMGVUhATbVcVqqZUXZQ)
+
+### Step 8 demo
+
+[![asciicast](https://asciinema.org/a/lVxSJanmRgMjaExbU9CGUVZ38.svg)](https://asciinema.org/a/lVxSJanmRgMjaExbU9CGUVZ38)
