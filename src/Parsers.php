@@ -2,9 +2,13 @@
 
 namespace Differ\Parsers;
 
+const VALID_FILE_TYPES = [ 'Json', 'Yml', 'Yaml' ];
+const MAP_DUP_TYPES = [ 'Yml' => 'Yaml' ];
+
 function getParseFunction(string $fileType): mixed
 {
-    return "Differ\\Parsers\\$fileType\\parse";
+    $parser = MAP_DUP_TYPES[$fileType] ?? $fileType;
+    return "Differ\\Parsers\\$parser\\parse";
 }
 
 /**

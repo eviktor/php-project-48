@@ -6,15 +6,23 @@ use function Differ\Diff\Builder\compare;
 use function Differ\Formatters\format;
 use function Differ\Parsers\parse;
 
+use const Differ\Parsers\VALID_FILE_TYPES;
+use const Differ\Formatters\VALID_FORMAT_TYPES;
+
 function getFileType(string $filePath): string
 {
-    $ext = strtolower(pathinfo($filePath, PATHINFO_EXTENSION));
-    switch ($ext) {
-        case 'json':
-            return 'Json';
-        case 'yml':
-        case 'yaml':
-            return 'Yaml';
+    $ext = mb_convert_case(pathinfo($filePath, PATHINFO_EXTENSION), MB_CASE_TITLE);
+    if (in_array($ext, VALID_FILE_TYPES)) {
+        return $ext;
+    }
+    return 'unknown';
+}
+
+function getFormatType(string $format): string
+{
+    $formatType = mb_convert_case($format, MB_CASE_TITLE);
+    if (in_array($formatType, VALID_FORMAT_TYPES)) {
+        return $formatType;
     }
     return 'unknown';
 }
@@ -31,7 +39,7 @@ function parseFile(string $filePath): array|string
 
     $fileType = getFileType($filePath);
     if ($fileType === 'unknown') {
-        return "Unknown file type $fileType!";
+        return "Unknown file type of $filePath!";
     }
 
     $parsedData = parse($data, $fileType);
@@ -43,6 +51,11 @@ function parseFile(string $filePath): array|string
 
 function genDiff(string $firstPath, string $secondPath, string $format = 'stylish'): string
 {
+    $formatType = getFormatType($format);
+    if ($formatType === 'unknown') {
+        return "Unknow format $format!";
+    }
+
     $data1 = parseFile($firstPath);
     if (!is_array($data1)) {
         return $data1;
@@ -53,5 +66,5 @@ function genDiff(string $firstPath, string $secondPath, string $format = 'stylis
     }
 
     $diff = compare($data1, $data2);
-    return format($diff, $format);
+    return format($diff, $formatType);
 }

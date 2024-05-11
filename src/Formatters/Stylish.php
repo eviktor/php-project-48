@@ -22,14 +22,15 @@ function getStatusSymbol(string $status): string
 
 /**
  * @param array<mixed> $fileNode
+ * @return array<mixed>
  */
-function buildFileLine(array $fileNode, int $level): string
+function buildFileLines(array $fileNode, int $level): array
 {
     $spacing = getSpacing($level);
     $name = getName($fileNode);
     $statusSymbol = getStatusSymbol(getStatus($fileNode));
     $strData = getDataAsString($fileNode);
-    return "$spacing$statusSymbol $name: $strData";
+    return [ "$spacing$statusSymbol $name: $strData" ];
 }
 
 /**
@@ -45,7 +46,7 @@ function buildDirLines(array $dirNode, int $level): array
 
     $childrenLines = array_reduce(
         getChildren($dirNode),
-        fn ($acc, $child) => array_merge($acc, format($child, $level + 1)),
+        fn ($acc, $child) => array_merge($acc, buildOutputLines($child, $level + 1)),
         []
     );
 
@@ -57,11 +58,16 @@ function buildDirLines(array $dirNode, int $level): array
  * @param array<mixed> $tree
  * @return array<mixed>
  */
-function format(array $tree, int $level = 0): array
+function buildOutputLines(array $tree, int $level): array
 {
-    if (isFile($tree)) {
-        return [ buildFileLine($tree, $level) ];
-    } else {
-        return buildDirLines($tree, $level);
-    }
+    return isFile($tree) ? buildFileLines($tree, $level) : buildDirLines($tree, $level);
+}
+
+/**
+ * @param array<mixed> $tree
+ * @return array<mixed>
+ */
+function format(array $tree): array
+{
+    return buildOutputLines($tree, 0);
 }

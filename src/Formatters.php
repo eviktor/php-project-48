@@ -2,16 +2,18 @@
 
 namespace Differ\Formatters;
 
-function getFormatFunction(string $format): mixed
+const VALID_FORMAT_TYPES = [ 'Json', 'Plain', 'Stylish' ];
+
+function getFormatFunction(string $formatType): mixed
 {
-    return 'Differ\\Formatters\\' . trim(mb_convert_case($format, MB_CASE_TITLE)) . '\\format';
+    return "Differ\\Formatters\\$formatType\\format";
 }
 
 /**
  * @param array<mixed> $diff
  */
-function format(array $diff, string $format): string
+function format(array $diff, string $formatType): string
 {
-    $formatFunction = getFormatFunction($format);
+    $formatFunction = getFormatFunction($formatType);
     return implode("\n", $formatFunction($diff));
 }

@@ -38,7 +38,7 @@ function getAllNodes(array $tree, string $path = '', array $allNodes = []): arra
  * @param array<mixed> $allNodes
  * @return array<mixed>
  */
-function getPlainItems(array $allNodes): array
+function convertToPlainItems(array $allNodes): array
 {
     return array_reduce($allNodes, function ($acc, $node) {
         $name = getName($node);
@@ -93,7 +93,7 @@ function buildOutputLines(array $plainItems): array
 function format(array $tree): array
 {
     $nodes = getAllNodes($tree);
-    $plainItems = getPlainItems($nodes);
+    $plainItems = convertToPlainItems($nodes);
     $lines = buildOutputLines($plainItems);
     return $lines;
 }
