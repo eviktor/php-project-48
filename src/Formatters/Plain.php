@@ -49,10 +49,9 @@ function convertToPlainItems(array $allNodes): array
 
         $data = isFile($node) ? getDataAsString($node, true) : '[complex value]';
         if (array_key_exists($name, $acc)) {
-            $prev = $acc[$name]['data'];
+            $prevData = $acc[$name]['data'];
             $updatedNodes = [
-                "$name" => [ 'name' => $name, 'status' => 'updated', 'data' => $data, 'prev' => $prev
-                ]
+                "$name" => [ 'name' => $name, 'status' => 'updated', 'data' => $data, 'prev' => $prevData ]
             ];
             $otherdNodes = array_filter($acc, fn ($nodeName) => $nodeName !== $name, ARRAY_FILTER_USE_KEY);
             return [ ...$otherdNodes, ...$updatedNodes ];
