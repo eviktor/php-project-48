@@ -24,13 +24,8 @@ Options:
   --format <fmt>                Report format [default: stylish]
 DOC;
 
-$args = Docopt::handle($doc);
-
-if ($args['--version']) {
-  print_r("Version: 0.0.0\n");;
-} else {
-  $diff = genDiff($args['<firstFile>'], $args['<secondFile>'], $args['--format']);
-  print_r("$diff\n");
-}
+$args = Docopt::handle($doc, array('version'=>'genDiff 0.0.0'));
+$diff = genDiff($args['<firstFile>'], $args['<secondFile>'], $args['--format']);
+print_r("$diff\n");
 
 return 0;
