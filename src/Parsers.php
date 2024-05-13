@@ -2,20 +2,38 @@
 
 namespace Differ\Parsers;
 
-const VALID_FILE_TYPES = [ 'Json', 'Yml', 'Yaml' ];
-const MAP_DUP_TYPES = [ 'Yml' => 'Yaml' ];
+const MAP_EXT_TO_PARSER = [ 'Json' => 'Json', 'Yml' => 'Yaml', 'Yaml' => 'Yaml' ];
 
-function getParseFunction(string $fileType): mixed
+function getParserName(string $filePath): string
 {
-    $parser = MAP_DUP_TYPES[$fileType] ?? $fileType;
-    return "Differ\\Parsers\\$parser\\parse";
+    $ext = mb_convert_case(pathinfo($filePath, PATHINFO_EXTENSION), MB_CASE_TITLE);
+    return MAP_EXT_TO_PARSER[$ext] ?? 'unknown';
+}
+
+function getParseFunction(string $parserName): mixed
+{
+    return "Differ\\Parsers\\$parserName\\parse";
 }
 
 /**
- * @return array<mixed>|false
+ * @return array<mixed>|string Parsed data or error string
  */
-function parse(string $content, string $fileType): array|false
+function parse(string $filePath): array|string
 {
-    $parseFunction = getParseFunction($fileType);
-    return $parseFunction($content);
+    $data = file_get_contents($filePath);
+    if ($data === false) {
+        return "Error reading file $filePath!";
+    }
+
+    $parserName = getParserName($filePath);
+    if ($parserName === 'unknown') {
+        return "Unknown file type of $filePath!";
+    }
+
+    $parseFunction = getParseFunction($parserName);
+    $res = $parseFunction($data);
+    if ($res === false) {
+        return "Error parsing file $filePath!";
+    }
+    return $res;
 }
